@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-
+import SplashScreen from 'react-native-splash-screen';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 
@@ -9,6 +9,10 @@ import Loginform from './Loginform';
 
 export default class Login extends Component {
 
+  componentDidMount() {
+      SplashScreen.hide();
+  }
+  
   static navigationOptions = {
     header: null
   } 

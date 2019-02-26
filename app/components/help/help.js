@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import HeaderBar from '../common/headerBar';
+import { TextField } from 'react-native-material-textfield';
 
 
 
@@ -15,6 +16,9 @@ export default class Help extends Component {
             // </View>
         <View>
              <HeaderBar navigation={this.props.navigation}/>
+             <TextField
+        label='Phone number'
+      />
             <ListItem 
                 title='FAQ'
                 titleStyle={{ color: 'black', fontWeight: 'bold' }}
