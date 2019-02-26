@@ -145,6 +145,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-facebook-login')
     implementation project(':react-native-camera')
     implementation project(':react-native-google-signin')
     implementation project(':react-native-vector-icons')
@@ -156,7 +157,6 @@ dependencies {
     // From node_modules
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
-    compile project(':react-native-facebook-login')
     compile 'com.facebook.react:react-native:+'
     //implementation project(':streamaxia-publisher')
 }

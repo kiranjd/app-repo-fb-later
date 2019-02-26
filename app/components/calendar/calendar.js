@@ -1,44 +1,34 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, requireNativeComponent } from 'react-native';
-const Bulb = requireNativeComponent("Bulb")
-const Stream = requireNativeComponent("Stream")
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { CalendarList } from 'react-native-calendars';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
+import HeaderBar from '../common/headerBar';
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-        this._onStatusChange = this._onStatusChange.bind(this);
-        this.state = { isOn: false };
-    }
-    _onStatusChange = e => {
-        this.setState({ isOn: e.nativeEvent.isOn });
-    }
+export default class calendars extends Component {
     render() {
         return (
-            <View style={styles.container}>
-            <Stream />
-                <View style={styles.top} >
-                    <Text>This state of Bulb come from Native Code to JavaScript</Text>
-                    <Text>{this.state.isOn ? "Bulb is On" : "Bulb is Off"}</Text>
-                </View>
-                <Bulb style={styles.bottom} isOn={this.state.isOn} onStatusChange={this._onStatusChange} />
+            <View>
+                 <HeaderBar navigation={this.props.navigation}/>
+                <CalendarList style={styles.container}
+                    horizontal={true}
+                    markedDates={{
+                        '2019-02-15': { selected: true, marked: false, selectedColor: 'blue' },
+                        '2019-02-03': { selected: true, selectedColor: 'red' },
+                        '2019-02-10': { selected: true, selectedColor: 'red' },
+                        '2019-02-17': { selected: true, selectedColor: 'red' },
+                        '2019-02-24': { selected: true, selectedColor: 'red' },
+
+                    }}
+                />
             </View>
-        );
+        )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-    },
-    top: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    bottom: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
+        borderWidth: 1,
+        borderColor: 'black',
+        height: 350,
+    }
+})

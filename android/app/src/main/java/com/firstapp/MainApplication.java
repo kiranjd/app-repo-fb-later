@@ -3,9 +3,9 @@ package com.firstapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.magus.fblogin.FacebookLoginPackage;
 import org.reactnative.camera.RNCameraPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.magus.fblogin.FacebookLoginPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
@@ -30,9 +30,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FacebookLoginPackage(),
             new RNCameraPackage(),
             new RNGoogleSigninPackage(),
-            new FacebookLoginPackage(),
             new VectorIconsPackage(),
             new RNFirebasePackage(),
             new RNGestureHandlerPackage(),

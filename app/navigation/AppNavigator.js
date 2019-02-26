@@ -3,40 +3,58 @@ import { createStackNavigator, createDrawerNavigator, createSwitchNavigator } fr
 import Login from '../components/login/login';
 import numberEntry from '../components/signUp/enterMobileNumber'
 import SignupForm from '../components/signUp/SignupForm';
-import Home from '../home/home';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { Icon } from 'react-native-elements';
-import SideMenu from './sideMenu';
+import Home from '../home/home'
 import calendars from '../components/calendar/calendar';
-import { CameraVid } from '../components/video/camera';
-// import Friends from './Friends';
-// import Signup from './Components/Signup/Signup';
-// import SignupDetails from './Components/Signup/SignupDetails';
-// import CardViewCustom from './Components/CardView/CardView';
+import Help from '../components/help/help';
+import Profile from '../components/profile/profile';
+import Settings from '../components/settings/settings';
+import LastClasses from '../components/lastClasses/lastClasses';
+import SideMenu from './sideMenu';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import HeaderBar from '../components/common/headerBar';
+
 
 const MainDrawer = createDrawerNavigator(
   {
     Home: {
       screen: Home,
     },
-    Classes: {
+    Profile: {
+      screen: Profile,
+    },
+
+    Help: {
+      screen: Help,
+    },
+    
+    Account: {
       screen: Home,
     },
-    Profile: {
+    Notification: {
       screen: Home,
+    },
+    "Last Classes": {
+      screen: LastClasses,
     },
     Calendar: {
       screen: calendars,
     },
+    Settings: {
+      screen: Settings,
+    },
+    Help: {
+      screen: Help,
+      title: 'Help'
+    },
     Logout: {
       screen: Login,
     },
-    Camera: {
-      screen: CameraVid,
+    header: {
+      screen: HeaderBar,
     }
   },     {
     contentComponent: SideMenu,
-    drawerWidth: wp('70%'),
+    drawerWidth: wp('69%'),
   }
 )
 
@@ -58,6 +76,7 @@ const LoginStack = createStackNavigator(
   }
 );
 
+
 const AppNavigator = createSwitchNavigator(
   {
     BeforeLogin: {
@@ -67,12 +86,7 @@ const AppNavigator = createSwitchNavigator(
     Home: { 
       screen: MainDrawer,
     }
-  //   Friends: MainDrawer,
   }
 );
-
-// export const Drawer = DrawerNavigator({
-//   Stack: { screen: Login },
-// });
 
 export default AppNavigator;

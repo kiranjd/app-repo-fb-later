@@ -4,7 +4,7 @@ import { StyleSheet, StatusBar, TextInput, Text, View, Image, TouchableOpacity, 
 import { Card, ListItem, Button, Icon, Header } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
-import LeftComponent from './headerComponents/leftComponent';
+import HeaderBar from '../components/common/headerBar';
 
 export default class Signup extends Component {
     constructor(props) {
@@ -75,14 +75,7 @@ export default class Signup extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Header
-                    placement="center"
-                    // leftComponent={{ icon: 'menu', color: '#fff' }}
-                    leftComponent={<LeftComponent onPress = {() => this.toggleDrawer()}/>}
-                    centerComponent={{ text: 'CURRENT CLASSES', style: { color: '#fff' } }}
-                    rightComponent={{ icon: 'home', color: '#fff' }}
-                    containerStyle={{ backgroundColor: '#3358ff', height: hp('7%'), borderBottomWidth:0, shadowColor: 'black' }}
-                />
+                <HeaderBar navigation={this.props.navigation}/>
                 <ScrollView >
 
                     <StatusBar backgroundColor="blue" barStyle="light-content" />

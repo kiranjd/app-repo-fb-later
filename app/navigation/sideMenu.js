@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Image } from 'react-native-elements';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Icon, withTheme } from 'react-native-elements';
+
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class SideMenu extends Component {
     render() {
@@ -10,18 +11,34 @@ export default class SideMenu extends Component {
             <View style={styles.container}>
                 <View style={styles.profileDetails}>
                     <Button title="SVJK" onPress={() => { this.props.navigation.navigate('Logout') }} />
-                    <View style={styles.imageContainer}>
-                    <Image style={styles.profileImage} source={require('../components/Images/profile.png')} />
-                    </View>                                              
+                        <Image containerStyle={styles.imageContainer} style={styles.profileImage} source={{uri: 'https://www.modernfolkembroidery.com/wp-content/uploads/2017/01/jacob-round-profile-smaller.jpg'}}/>
+                    <Text style={styles.profileName}>Harvey Spectre</Text>
                 </View>
                 <View style={styles.pages}>
-                    <Text style={styles.pagesList}>Last Classes</Text>
-                    <Text style={styles.pagesList}>Profile</Text>
-                    <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Calendar') }}>Calendar</Text>
-                    <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Camera') }}>Camera</Text>
-                    <Text style={styles.pagesList}>Help</Text>
-                    <Text style={styles.pagesList}>Logout</Text>
+                    <TouchableOpacity activeOpacity={0.2} underlayColor={'black'}>
+                        <View style={styles.iconWithText}>
+                            <Icon name='play' type='evilicon' color='white' />
+                            <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Last Classes') }}>Last Classes</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={styles.iconWithText}>
+                        <Icon name='link' type='evilicon' color='white' />
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Profile') }}>Profile</Text>
+                    </View>
+                    <View style={styles.iconWithText}>
+                        <Icon name='calendar' type='evilicon' color='white' />
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Calendar') }}>Calendar</Text>
+                    </View>
+                    <View style={styles.iconWithText}>
+                        <Icon name='chart' type='evilicon' color='white' />
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Help') }}>Help</Text>
+                    </View>
+                    <View style={styles.iconWithText}>
+                        <Icon name='close' type='evilicon' color='white' />
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Login') }}>Logout</Text>
+                    </View>
                 </View>
+
             </View>
         );
     }
@@ -29,33 +46,50 @@ export default class SideMenu extends Component {
 
 const styles = StyleSheet.create({
     container: {
-
+        flex: 1,
+        backgroundColor: '#70A5F1',
     },
-    pages : {
-        
+    pages: {
+        backgroundColor: '#70A5F1',
+    },
+    iconWithText: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     imageContainer: {
         opacity: 0.9,
-        backgroundColor: '#358',
     },
     profileDetails: {
-        
+
     },
     image: {
 
     },
-     profileImage: {
-         marginTop: hp('0%'),
-         width: wp('65%'), 
-         height: hp('30%'),
-         resizeMode: 'contain',
-     },
-     pagesList: {
-         fontSize: wp('3.5%'),
-         padding: wp('1.5%'),
-         backgroundColor: 'lightgray',
-         margin: 1,
-         fontWeight: 'bold',
-         color: 'black'
-     },
+    profileImage: {
+        marginTop: hp('2%'),
+        marginLeft: wp('15%'),
+        width: 150, height: 150,
+        borderRadius: 200/ 2,
+        borderWidth: 3,
+        backgroundColor: 'black',
+        borderColor: 'white',
+    },
+    pagesList: {
+        fontSize: wp('3.5%'),
+        padding: wp('1.5%'),
+        margin: 1,
+        fontWeight: 'bold',
+        color: 'white',
+        fontFamily: 'monospace',
+    },
+
+    profileName: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: 'white',
+        //fontFamily: 'monospace',
+        marginTop: hp('2%'),
+        marginBottom: hp('2%'),
+        fontSize: 20
+    }
 })
