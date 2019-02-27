@@ -3,11 +3,9 @@ import { FBLoginManager } from 'react-native-facebook-login';
 const Facebook = {
   login: (permissions) => {
     return new Promise((resolve, reject) => {
-      FBLoginManager.loginWithPermissions(permissions || ['email'], (error, data) => {
+      FBLoginManager.loginWithPermissions(['email'], (error, data) => {
         if (!error) {
-          //console.log(data.profile.name);
-          // Alert.alert(`{data.profile.name}`);
-          resolve(data.credentials.token);
+          resolve(data.credentials);
         } else {
           reject(error);
         }

@@ -23,7 +23,7 @@ export const hangleGoogleLogIn = () => {
     })
     .catch((error) => {
       const { code, message } = error;
-      console.log(message);
+      console.log(error);
       // For details of error codes, see the docs
       // The message contains the default Firebase string
       // representation of the error

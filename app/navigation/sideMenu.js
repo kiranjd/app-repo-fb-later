@@ -6,6 +6,15 @@ import { Icon, withTheme } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class SideMenu extends Component {
+    signOutUser = () => {
+        this.props.navigation.navigate('Login');
+        // try {
+        //     await firebase.auth().signOut();        
+        // } catch (e) {
+        //     console.log(e);
+        // }
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -35,7 +44,7 @@ export default class SideMenu extends Component {
                     </View>
                     <View style={styles.iconWithText}>
                         <Icon name='close' type='evilicon' color='white' />
-                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Login') }}>Logout</Text>
+                        <Text style={styles.pagesList} onPress={() => { this.signOutUser }}>Logout</Text>
                     </View>
                 </View>
 
