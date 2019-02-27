@@ -12,6 +12,7 @@ import LastClasses from '../components/lastClasses/lastClasses';
 import SideMenu from './sideMenu';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HeaderBar from '../components/common/headerBar';
+import HandleLogin from '../components/login/HandleUserState';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -79,6 +80,10 @@ const LoginStack = createStackNavigator(
 
 const AppNavigator = createSwitchNavigator(
   {
+    UserState: {
+      screen: HandleLogin
+    },
+
     BeforeLogin: {
       screen: LoginStack
     },

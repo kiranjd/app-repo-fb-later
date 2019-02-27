@@ -3,34 +3,63 @@ import { Alert, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-na
 import { Avatar } from 'react-native-elements';
 import { ListItem } from 'react-native-elements';
 import HeaderBar from '../common/headerBar';
-
+import firebase from 'react-native-firebase';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+      displayName: '',
+      profileUrl: '',
+    }
+  }
 
   _onPressButton() {
     Alert.alert('You tapped the button!')
   }
+
+  componentDidMount() {
+    //SplashScreen.hide();
+    //this.props.navigation.navigate('Login');
+    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            this.setState({ user: user.toJSON(), displayName: user.displayName, profileUrl: user.photoURL+'?height=200' });
+            console.log(user);
+
+            //this.props.navigation.navigate('Home');
+        } else {
+            // User has been signed out, reset the state
+            this.setState({
+                user: null,
+            });
+            this.props.navigation.navigate('Login');
+        }
+    });
+}
 
   render() {
     return (
       <View style={styles.container}>
           <HeaderBar navigation={this.props.navigation}/>
         <Image style={styles.header} source={require('../Images/wall.jpg')} />
-        <Avatar style={styles.avatar}
+        <TouchableOpacity style={styles.avatar}>
+        <Avatar 
         size="xlarge"
         rounded
         showEditButton='true'
-        editButton={{color:'black' }}
+        editButton={{color:'black'}}
           source={{
             uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+              this.state.profileUrl,
           }}
           onEditPress=''
         />
-  
+  </TouchableOpacity>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <Text style={styles.name}>John Doe</Text>
+            <Text style={styles.name}>{this.state.displayName}</Text>
             <Text style={styles.info}>UX Designer / Mobile developer</Text>
             <Text style={styles.description}>Lorem ipsum dolor sit amet, saepe sapientem eu nam.
                Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an</Text>
@@ -51,14 +80,14 @@ const styles = StyleSheet.create({
     height: 200,
   },
   avatar: {
-    width: 130, 
-    height: 130,
+    width: wp('32%'), 
+    height: hp('18%'),
     // borderRadius: 63,
     // borderWidth: 4,
     // borderColor: "red",
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: 130,
+    marginTop: hp('23%'),
   },
   name: {
     fontSize: 22,
