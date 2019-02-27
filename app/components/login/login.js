@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Dimensions, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Loginform from './Loginform';
@@ -14,10 +15,18 @@ import { TextInput } from 'react-native-gesture-handler';
 
 const { width: WIDTH } = Dimensions.get('window')
 
+
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+    };
+  }
 
   componentDidMount() {
     SplashScreen.hide();
+
   }
 
   static navigationOptions = {

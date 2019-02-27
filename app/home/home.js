@@ -6,16 +6,16 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { ScrollView } from 'react-native-gesture-handler';
 import HeaderBar from '../components/common/headerBar';
 
-export default class Signup extends Component {
+export default class Home extends Component {
     constructor(props) {
         super(props);
         this.showCardButton = this.showCardButton.bind(this);
         this.state = {
             showCard: null,
+            //user: this.props.navigation.state.params.user._user,
         }
-    }
-
-    componentDidMount() {
+        //const { navigation } = this.props;
+        //console.log(this.props.navigation.getParam(uname, 'def'));
     }
 
     cardButton() {
@@ -78,19 +78,20 @@ export default class Signup extends Component {
                 <HeaderBar navigation={this.props.navigation}/>
                 <ScrollView >
 
-                    <StatusBar backgroundColor="blue" barStyle="light-content" />
+                    
                     {
                         users.map((u, i) => {
                             return (
                                 // <TouchableOpacity onPress={ () => this.props.navigation.toggleDrawer()}>
-                                <TouchableOpacity onPress={() => this.showCardButton(i)}>
-                                    <Card key={i} containerStyle={styles.cardViewContainer} >
+                                <TouchableOpacity key={i} onPress={() => this.showCardButton(i)}>
+                                    <Card  containerStyle={styles.cardViewContainer} >
                                         <View>
                                             <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Student Name: </Text>{u.studentName}</Text>
                                             <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Subject: </Text>{u.subject}</Text>
                                             <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Time of class: </Text>{u.timeOfClass}</Text>
                                         </View>
-                                        {(this.state.showCard === i) && this.cardButton()}
+                                        <View>{(this.state.showCard === i) && this.cardButton()}</View>
+                                        
                                     </Card>
                                 </TouchableOpacity>
                             );

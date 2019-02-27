@@ -12,11 +12,7 @@ export default class Loginform extends Component {
         this.nav = props.navigateProp;
     }
 
-    fb() {
-        {handleFbLogin};
-        Alert.alert('kk');
-        this.props.navigation.navigate('Home');
-    }
+    
   render() {
     return (
         <KeyboardAvoidingView behavior="position" enabled>

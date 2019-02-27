@@ -5,9 +5,8 @@ const Facebook = {
     return new Promise((resolve, reject) => {
       FBLoginManager.loginWithPermissions(permissions || ['email'], (error, data) => {
         if (!error) {
-          //console.log(data.profile.name);
-          // Alert.alert(`{data.profile.name}`);
-          resolve(data.credentials.token);
+          resolve(data.credentials.token
+            );
         } else {
           reject(error);
         }
