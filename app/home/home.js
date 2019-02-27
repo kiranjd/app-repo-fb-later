@@ -78,7 +78,7 @@ export default class Home extends Component {
                 <HeaderBar navigation={this.props.navigation}/>
                 <ScrollView >
 
-                    <StatusBar backgroundColor="blue" barStyle="light-content" />
+                    
                     {
                         users.map((u, i) => {
                             return (

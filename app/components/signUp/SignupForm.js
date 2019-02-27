@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, StatusBar, TextInput, Text, View, TouchableOpacity, Image } from 'react-native';
-
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { TextField } from 'react-native-material-textfield';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class SignupForm extends Component {
     render() {
@@ -19,6 +20,24 @@ export default class SignupForm extends Component {
                     autoCorrect={false}
                     style={styles.input}
                 />
+                                <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 10}}>
+                <View style={{width: wp('90%'), flexDirection: 'row', borderRadius: 100, justifyContent: 'center',alignItems: 'center', backgroundColor: 'skyblue' , paddingBottom: 10, paddingTop: 0}}>
+                    <View style={{ marginRight: 20, marginTop: 10 }}>
+                        <Icon
+                            name='user'
+                            size={24}
+                            color='black'
+                        />
+                    </View>
+                    <View style={{height: hp('5%'), justifyContent: 'center',alignItems: 'center', marginBottom: 5 }}>
+                        <TextField
+                            label='Username'
+                            animationDuration='200'
+                            containerStyle={{width: wp('70%')}}
+                        />
+                    </View>
+                </View>
+                </View>
                 <TextInput 
                     placeholder="First Name" 
                     placeholderTextColor="#fff"

@@ -3,7 +3,7 @@ import firebase from 'react-native-firebase';
 
 export const hangleGoogleLogIn = () => {
   GoogleSignin.configure({
-    webClientId: '819855999384-1fntb68vma45dl14icjtva3u23e6q91g.apps.googleusercontent.com',
+    webClientId: '819855999384-l6r65jt5s62u68d8r850j04ahi03icec.apps.googleusercontent.com',
     iosClientId: '',
     //offlineAccess: true,
     //forceConsentPrompt: true,

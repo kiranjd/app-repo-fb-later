@@ -16,21 +16,20 @@ export default class HandleLogin extends Component {
 
     componentDidMount() {
         SplashScreen.hide();
-        this.props.navigation.navigate('Login');
-        // this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-        //     if (user) {
-        //         this.setState({ user: user.toJSON() });
-        //         console.log(user);
-        //         var sometext = 'hell';
-        //         //this.props.navigation.navigate('Home', {uname: 'sometext'});
-        //     } else {
-        //         // User has been signed out, reset the state
-        //         this.setState({
-        //             user: null,
-        //         });
-        //         this.props.navigation.navigate('Login');
-        //     }
-        // });
+        //this.props.navigation.navigate('Login');
+        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ user: user.toJSON() });
+                console.log(user);
+                this.props.navigation.navigate('Home');
+            } else {
+                // User has been signed out, reset the state
+                this.setState({
+                    user: null,
+                });
+                this.props.navigation.navigate('Login');
+            }
+        });
     }
 
     // componentWillUnmount() {

@@ -1,27 +1,60 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon, withTheme } from 'react-native-elements';
+import firebase from 'react-native-firebase';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class SideMenu extends Component {
-    signOutUser = () => {
-        this.props.navigation.navigate('Login');
-        // try {
-        //     await firebase.auth().signOut();        
-        // } catch (e) {
-        //     console.log(e);
-        // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: [],
+            displayName: '',
+            profileUrl: '',
+        }
+    }
+
+    componentDidMount() {
+        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ 
+                    user: user.toJSON(),
+                    displayName: user.displayName,
+                    profileUrl: user.photoURL, 
+                });
+                console.log(user.photoURL);
+                
+            } else {
+                this.setState({
+                    user: null,
+                });
+                
+            }
+            console.log(this.state.user['displayName']);
+        });
     }
 
     render() {
+        signOutUser = async () => {
+            //this.props.navigation.navigate('Login');
+            try {
+                await firebase.auth().signOut(); 
+                console.log('out')       
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
         return (
             <View style={styles.container}>
                 <View style={styles.profileDetails}>
+                <StatusBar translucent backgroundColor="rgba(0, 0, 0, 0.0)"
+  animated />
                     <Button title="SVJK" onPress={() => { this.props.navigation.navigate('Logout') }} />
-                        <Image containerStyle={styles.imageContainer} style={styles.profileImage} source={{uri: 'https://www.modernfolkembroidery.com/wp-content/uploads/2017/01/jacob-round-profile-smaller.jpg'}}/>
-                    <Text style={styles.profileName}>Harvey Spectre</Text>
+                        <Image containerStyle={styles.imageContainer} style={styles.profileImage} source={{uri: this.state.profileUrl+'?height=200'}}/>
+                    <Text style={styles.profileName}>{this.state.displayName}</Text>
                 </View>
                 <View style={styles.pages}>
                     <TouchableOpacity activeOpacity={0.2} underlayColor={'black'}>
@@ -44,7 +77,7 @@ export default class SideMenu extends Component {
                     </View>
                     <View style={styles.iconWithText}>
                         <Icon name='close' type='evilicon' color='white' />
-                        <Text style={styles.pagesList} onPress={() => { this.signOutUser }}>Logout</Text>
+                        <Text style={styles.pagesList} onPress={() => { signOutUser() }}>Logout</Text>
                     </View>
                 </View>
 
