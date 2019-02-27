@@ -1,27 +1,28 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View,Dimensions, Image,ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import Loginform from './Loginform';
+import { TextField } from 'react-native-material-textfield';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import bgImage from '../Images/background.jpg'
 import logo from '../Images/Logo.png'
 import { TextInput } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements';
 
 const { width: WIDTH } = Dimensions.get('window')
 
 export default class Login extends Component {
 
   componentDidMount() {
-      SplashScreen.hide();
+    SplashScreen.hide();
   }
-  
+
   static navigationOptions = {
     header: null
-  } 
+  }
   render() {
     return (
       // <View style={styles.container}>
@@ -34,32 +35,73 @@ export default class Login extends Component {
       //   <Loginform navigation={this.props.navigation}/>
       // </View>
       <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-        {/* <View style={styles.logoContainer}>
-          <Image source={logo} style={styles.logo} />
-          <Text style={styles.logoText}>VJVk</Text>
-        </View> */}
+        <Text style={{marginTop:'58%',fontSize:35,color:'#AE1EF2',marginLeft:270}}>
+          Login
+        </Text>
+        <View style={{ justifyContent:'center', alignItems: 'center', marginTop: '20%', }}>
+          <View style={{ width: wp('90%'), flexDirection: 'row', borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', paddingBottom: 10, paddingTop: 0 }}>
+            <View style={{ marginRight: 20, marginTop: 10 }}>
+              <Icon
+                name='user'
+                size={24}
+                color='#AE1EF2'
+              />
+            </View>
+            <View style={{ height: hp('5%'), justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
+              <TextField
+                label='User name'
+                animationDuration='200'
+                containerStyle={{ width: wp('70%') }}
+              />
+            </View>
+          </View>
 
-        <View style={styles.inputContainer}>
-        {/* <Icon name='User' size={28} color={'rgba(255,255,255,0.7)'}
-        style={styles.inputIcon}/> */}
-          <TextInput
-            style={styles.input}
-            placeholder={'Username'}
-            placeholderTextColor={'rgba(255,255,255,0.7'}
-          />
+          <View style={{ width: wp('90%'), flexDirection: 'row', borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',marginTop:20, paddingBottom: 10, paddingTop: 0 }}>
+            <View style={{ marginRight: 20, marginTop: 10 }}>
+              <Icon
+                name='key'
+                size={24}
+                color='#AE1EF2'
+              />
+            </View>
+            <View style={{ height: hp('5%'), justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
+              <TextField
+                label='Password'
+                animationDuration='200'
+                containerStyle={{ width: wp('70%') }}
+                secureTextEntry={true}
+              />
+            </View>
+          </View>
         </View>
 
-        <View style={styles.inputContainer}>
-        {/* <Icon name={'ios-Lock-outLine'} size={28} color={'rgba(255,255,255,0.7)'}
-        style={styles.inputIcon}/> */}
-          <TextInput
-            style={styles.input}
-            placeholder={'Password'}
-            secureTextEntry={true}
-            placeholderTextColor={'rgba(255,255,255,0.7'}
-          />
-        </View>
+        <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity>
+          <Text 
+            style={{
+              fontSize:15, 
+              width: wp('40%'), 
+              height: 40, 
+              color:'white', 
+              textAlign:'center', 
+              backgroundColor:'#AE1EF2', 
+              borderBottomRightRadius:20, 
+              borderTopRightRadius:20, 
+              padding:'2%'}}
+            >Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+        <Text style={{fontSize:15, color:'white', marginHorizontal: 100, marginTop: 10}}>
+          Forget Password?
+        </Text>
+        </TouchableOpacity>
         
+        </View>
+        <TouchableOpacity>
+        <Text style={{fontSize:15, color:'white',marginTop:70,marginHorizontal:100}}>
+          Create New Account? <Text style={{fontSize:15, color:'#AE1EF2',alignContent:'center'}}>SignUp</Text>
+        </Text>
+        </TouchableOpacity>
 
       </ImageBackground>
     );
@@ -97,44 +139,14 @@ const styles = StyleSheet.create({
   // }
 
   backgroundContainer: {
-    flex:1,
+    flex: 1,
     width: null,
     height: null,
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 50
-  },
-  logo: {
-    width: 120,
-    height: 120
-  },
-  logoText: {
-    color : 'red',
-    fontSize: 20,
-    fontWeight: '500',
-    marginTop:10,
-    opacity: 0.5
-  },
-  inputContainer: {
-    marginTop: 10
-  },
-  input: {
-    width: WIDTH - 55,
-    height: 45,
-    borderRadius: 25,
-    fontSize: 16,
-    paddingLeft: 45,
-    backgroundColor: 'white',
-    color: 'rgba(255,255,255,0.7)',
-    marginHorizontal: 25
-  },
-  inputIcon: {
-    position: 'absolute',
-    top: 8,
-    left: 37 
-  }
+
+
+
 
 });
