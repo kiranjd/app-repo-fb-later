@@ -9,22 +9,13 @@ import {
   ImageBackground, 
   TouchableOpacity
  } from 'react-native';
+
 import SplashScreen from 'react-native-splash-screen';
-
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
-import Loginform from './Loginform';
 import { TextField } from 'react-native-material-textfield';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { handleFbLogin } from '../../fb/auth';
 import { hangleGoogleLogIn } from '../../google/google';
-
-import bgImage from '../Images/background.jpg'
-import logo from '../Images/Logo.png'
-import { TextInput } from 'react-native-gesture-handler';
-
-const { width: WIDTH } = Dimensions.get('window')
-
 
 export default class Login extends Component {
   constructor(props) {
@@ -53,7 +44,7 @@ export default class Login extends Component {
       //   </View>
       //   <Loginform navigation={this.props.navigation}/>
       // </View>
-      <ImageBackground source={bgImage} style={styles.backgroundContainer}>
+      <ImageBackground source={require('../Images/background.jpg')} style={styles.backgroundContainer}>
         <Text style={{marginTop:'65%',fontSize:35,color:'#AE1EF2',marginLeft:270}}>
           Login
         </Text>
