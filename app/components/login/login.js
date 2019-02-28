@@ -80,6 +80,7 @@ export default class Login extends Component {
                 animationDuration={500}
                 containerStyle={{ width: wp('70%') }}
                 secureTextEntry={true}
+                //
               />
             </View>
           </View>
