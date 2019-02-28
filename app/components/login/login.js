@@ -1,6 +1,14 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Dimensions, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  Dimensions, 
+  Image, 
+  ImageBackground, 
+  TouchableOpacity
+ } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,6 +16,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Loginform from './Loginform';
 import { TextField } from 'react-native-material-textfield';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { handleFbLogin } from '../../fb/auth';
+import { hangleGoogleLogIn } from '../../google/google';
 
 import bgImage from '../Images/background.jpg'
 import logo from '../Images/Logo.png'
@@ -44,7 +54,7 @@ export default class Login extends Component {
       //   <Loginform navigation={this.props.navigation}/>
       // </View>
       <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-        <Text style={{marginTop:'58%',fontSize:35,color:'#AE1EF2',marginLeft:270}}>
+        <Text style={{marginTop:'65%',fontSize:35,color:'#AE1EF2',marginLeft:270}}>
           Login
         </Text>
         <View style={{ justifyContent:'center', alignItems: 'center', marginTop: '20%', }}>
@@ -59,7 +69,7 @@ export default class Login extends Component {
             <View style={{ height: hp('5%'), justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
               <TextField
                 label='User name'
-                animationDuration='200'
+                animationDuration={255}
                 containerStyle={{ width: wp('70%') }}
               />
             </View>
@@ -76,7 +86,7 @@ export default class Login extends Component {
             <View style={{ height: hp('5%'), justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
               <TextField
                 label='Password'
-                animationDuration='200'
+                animationDuration={500}
                 containerStyle={{ width: wp('70%') }}
                 secureTextEntry={true}
               />
@@ -104,11 +114,49 @@ export default class Login extends Component {
           Forget Password?
         </Text>
         </TouchableOpacity>
-        
         </View>
-        <TouchableOpacity>
-        <Text style={{fontSize:15, color:'white',marginTop:70,marginHorizontal:100}}>
-          Create New Account? <Text style={{fontSize:15, color:'#AE1EF2',alignContent:'center'}}>SignUp</Text>
+
+          <View 
+            style={{
+              backgroundColor: '#fff', 
+              width: wp('60%'), 
+              height: hp('9%'), 
+              marginVertical: hp('3%'),
+              borderBottomLeftRadius:50, 
+              borderTopLeftRadius:50,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+              marginLeft: wp('40%'),
+              backgroundColor:'#AE1EF2', 
+              // paddingBottom: hp('0.5%'),
+              // paddingLeft: wp('2%'),
+            }}
+            >
+             <TouchableOpacity onPress={handleFbLogin}>
+                    <Image
+                        style={{width: 50, height: 50, justifyContent: 'center', margin: wp('1%')}}
+                        source={require('../Images/facebook.png')}
+                    />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={hangleGoogleLogIn}>
+                    <Image
+                        style={{width: 50, height: 50, justifyContent: 'center', margin: 5}}
+                        source={require('../Images/google-plus.png')}
+                    />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                    <Image
+                        style={{width: 50, height: 50, justifyContent: 'center', margin: 5}}
+                        source={require('../Images/linkedin.png')}
+                    />
+                    </TouchableOpacity>
+
+          </View>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('SendOTPScreen')}>
+        <Text style={{fontSize:15, color:'white',alignContent:'center',marginHorizontal:100}}>
+          Create New Account? 
+          <Text style={{fontSize:15, color:'#AE1EF2'}}>SignUp</Text>
         </Text>
         </TouchableOpacity>
 
