@@ -63,7 +63,8 @@ const LoginStack = createStackNavigator(
   {
     Login: Login,
     SendOTPScreen: {
-      screen: numberEntry,
+      // screen: numberEntry,
+      screen: SignupForm,  // delete this line
       navigationOptions : {
         title: 'Phone validation',
       }

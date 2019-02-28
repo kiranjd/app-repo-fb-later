@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { handleFbLogin } from '../../fb/auth';
 import { hangleGoogleLogIn } from '../../google/google';
 
-export default class Login extends Component {
+  export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -188,8 +188,8 @@ const styles = StyleSheet.create({
 
   backgroundContainer: {
     flex: 1,
-    width: null,
-    height: null,
+    width: wp('100%'),
+    height: hp('100%'),
     justifyContent: 'center',
     // alignItems: 'center',
   },
