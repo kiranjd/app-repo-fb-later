@@ -9,14 +9,11 @@ import HeaderBar from '../components/common/headerBar';
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        console.disableYellowBox = true;
+        //debugger;
         this.showCardButton = this.showCardButton.bind(this);
         this.state = {
             showCard: null,
-            //user: this.props.navigation.state.params.user._user,
         }
-        //const { navigation } = this.props;
-        //console.log(this.props.navigation.getParam(uname, 'def'));
     }
 
     cardButton() {

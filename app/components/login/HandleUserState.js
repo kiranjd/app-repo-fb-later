@@ -14,8 +14,8 @@ export default class HandleLogin extends Component {
           };
     }
 
-    componentWillMount() {
-        SplashScreen.hide();
+    render() {   
+        SplashScreen.hide(); 
         //this.props.navigation.navigate('Login');
         this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -24,24 +24,12 @@ export default class HandleLogin extends Component {
                 this.props.navigation.navigate('Home');
             } else {
                 // User has been signed out, reset the state
-                
                 this.setState({
                     user: null,
                 });
                 this.props.navigation.navigate('Login');
             }
         });
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-        if (this.unsubscribe) this.unsubscribe();
-      }
-
-    render() {
         return (
             null
         );
