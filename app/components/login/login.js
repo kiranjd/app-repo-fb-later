@@ -6,7 +6,8 @@ import {
   Image, 
   ImageBackground, 
   TouchableOpacity,
-  Alert
+  Alert,
+  ActivityIndicator
  } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -16,6 +17,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { handleFbLogin } from '../../fb/auth';
 import { hangleGoogleLogIn } from '../../google/google';
 import firebase from 'react-native-firebase';
+import { Overlay } from 'react-native-elements';
 
 export default class Login extends Component {
   constructor(props) {
@@ -24,6 +26,7 @@ export default class Login extends Component {
       user: null,
       email: '',
       password: '',
+      overlay: false,
     };
   }
 
@@ -58,6 +61,16 @@ export default class Login extends Component {
     }
   }
 
+  gmailPress() {
+    hangleGoogleLogIn();
+    this.setState({overlay: true});
+  }
+
+  fbPress() {
+    handleFbLogin();
+    this.setState({overlay: true})
+  }
+
   static navigationOptions = {
     header: null
   }
@@ -70,6 +83,17 @@ export default class Login extends Component {
           <View style={{backgroundColor: 'black', height: hp('5%'), width: wp('2%'), margin: 5}}>
           </View>
         </View> */}
+        <Overlay 
+            isVisible={this.state.overlay} 
+            height={hp('20%')} 
+            width={wp('60%')} 
+            borderRadius={10}
+        >
+                     <View style={{margin: 10}}>
+                <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', marginBottom: 20}}>Please wait. Logging in...</Text>
+                <ActivityIndicator size="large" color="#3358ff" />
+            </View>
+        </Overlay>
         <Text style={{marginTop: hp('36%'),fontSize:35,color:'#AE1EF2',marginLeft:wp('63%')}}>
           Login
         </Text>
@@ -188,13 +212,15 @@ export default class Login extends Component {
               backgroundColor:'#AE1EF2', 
             }}
             >
-             <TouchableOpacity onPress={handleFbLogin}>
+             <TouchableOpacity onPress={() => this.fbPress()}>
                     <Image
                         style={{width: 50, height: 50, justifyContent: 'center', margin: wp('1%')}}
                         source={require('../Images/facebook.png')}
                     />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={hangleGoogleLogIn}>
+                    <TouchableOpacity onPress={() => 
+                        this.gmailPress()
+                        }>
                     <Image
                         style={{width: 50, height: 50, justifyContent: 'center', margin: 5}}
                         source={require('../Images/google-plus.png')}

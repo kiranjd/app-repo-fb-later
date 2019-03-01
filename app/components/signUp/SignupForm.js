@@ -16,7 +16,7 @@ import {KeyboardAvoidingView} from 'react-native';
 export default class Login extends Component {
     render() {
         return (
-            <ImageBackground source={require('../Images/background.jpg')} style={styles.backgroundContainer}>
+            <ImageBackground source={require('../Images/background.png')} style={styles.backgroundContainer}>
                 <Text style={{ fontSize: 35, color: '#AE1EF2', marginLeft: wp('60%'), marginTop: ('60%') }}>
                     Sign Up
                 </Text>

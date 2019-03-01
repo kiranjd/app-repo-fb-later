@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {View} from 'react-native';
+import {View, Overlay, Text} from 'react-native';
 
 import firebase from 'react-native-firebase';
 import Home from '../../home/home';
 import SplashScreen from 'react-native-splash-screen';
-
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default class HandleLogin extends Component {
     constructor(props){
@@ -14,8 +14,8 @@ export default class HandleLogin extends Component {
           };
     }
 
-    componentDidMount() {
-        SplashScreen.hide();
+    render() {   
+        SplashScreen.hide(); 
         //this.props.navigation.navigate('Login');
         this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -30,13 +30,6 @@ export default class HandleLogin extends Component {
                 this.props.navigation.navigate('Login');
             }
         });
-    }
-
-    // componentWillUnmount() {
-    //     if (this.unsubscribe) this.unsubscribe();
-    //   }
-
-    render() {
         return (
             null
         );
