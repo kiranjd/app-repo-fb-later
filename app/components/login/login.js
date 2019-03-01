@@ -73,9 +73,9 @@ export default class Login extends Component {
         <Text style={{marginTop: hp('36%'),fontSize:35,color:'#AE1EF2',marginLeft:wp('63%')}}>
           Login
         </Text>
-        <View style={{ justifyContent:'center', alignItems: 'center', marginTop: hp('8%'), }}>
+        <View style={{ justifyContent:'center', alignItems: 'center', marginTop: hp('8%'), marginRight: wp('5%') }}>
           <View style={{ 
-                    width: wp('90%'), 
+                    width: wp('75%'), 
                     flexDirection: 'row', 
                     borderRadius: 100, 
                     borderWidth: 1,
@@ -86,7 +86,7 @@ export default class Login extends Component {
                     paddingTop: 0,
                     borderColor: '#AE1EF2' 
                     }}>
-            <View style={{ marginRight: 20, marginTop: 10 }}>
+            <View style={{ marginRight: 10, marginTop: 10 }}>
               <Icon
                 name='user'
                 size={24}
@@ -102,17 +102,18 @@ export default class Login extends Component {
               <TextField
                 label='Email'
                 animationDuration={255}
-                containerStyle={{ width: wp('70%') }}
+                containerStyle={{ width: wp('60%') }}
                 lineWidth={0}
                 activeLineWidth={0}
                 maxLength={30}
                 onChangeText={value => this.setState({email: value})}
+                width={wp('50%')}
               />
             </View>
           </View>
 
           <View style={{ 
-                  width: wp('90%'), 
+                  width: wp('75%'), 
                   flexDirection: 'row', 
                   borderRadius: 100, 
                   justifyContent: 'center', 
@@ -137,7 +138,7 @@ export default class Login extends Component {
               <TextField
                 label='Password'
                 animationDuration={255}
-                containerStyle={{ width: wp('70%') }}
+                containerStyle={{ width: wp('60%') }}
                 secureTextEntry={true}
                 lineWidth={0}
                 activeLineWidth={0}

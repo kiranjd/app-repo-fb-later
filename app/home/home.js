@@ -9,6 +9,7 @@ import HeaderBar from '../components/common/headerBar';
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        console.disableYellowBox = true;
         this.showCardButton = this.showCardButton.bind(this);
         this.state = {
             showCard: null,
@@ -34,7 +35,7 @@ export default class Home extends Component {
                     title="Start Class"
                     raised
                     containerStyle={styles.cardButton}
-                    onPress = {() => this.props.navigation.navigate('SendOTPScreen')}
+                    onPress = {() => this.props.navigation.navigate('SendOTPScreen', { screenName: 'OTP to parent'})}
                 />
                 <Button
                     icon={
@@ -92,8 +93,7 @@ export default class Home extends Component {
                                             <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Subject: </Text>{u.subject}</Text>
                                             <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Time of class: </Text>{u.timeOfClass}</Text>
                                         </View>
-                                        <View>{(this.state.showCard === i) && this.cardButton()}</View>
-                                        
+                                        <View>{(this.state.showCard === i) && this.cardButton()}</View>                                        
                                     </Card>
                                 </TouchableOpacity>
                             );
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.9)',
         paddingVertical: hp('2%'),
         marginHorizontal: hp('2%'),
-        borderRadius: 14,
         borderColor: 'black',
         borderWidth: 0.5,
     }

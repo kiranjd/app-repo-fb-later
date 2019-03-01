@@ -106,7 +106,7 @@ export default class LastClasses extends Component {
                                     </View>
                     
                                     <View style={styles.thumbnailContainer}>
-                                        <Thumbnail containerStyle={styles.thumbnailStyle} imageWidth={wp('30%')} imageHeight={hp('17%')} url="https://www.youtube.com/watch?v=lgj3D5-jJ74" />
+                                        <Thumbnail containerStyle={styles.thumbnailStyle} imageWidth={wp('30%')} imageHeight={hp('17%')} url="https://www.youtube.com/watch?v=BZLILkaiXXM" />
                                     </View>
                                     </View>
                                 </Card>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     },
 
     cardViewContainer: {
-        borderRadius: 10,
+        // borderRadius: 10,
         flexDirection: 'column',
         backgroundColor: '#070707'
     },
