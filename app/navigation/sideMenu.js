@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Image, StatusBar } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { Icon, withTheme } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -24,24 +23,24 @@ export default class SideMenu extends Component {
                     displayName: user.displayName,
                     profileUrl: user.photoURL, 
                 });
-                console.log(user.photoURL);
-                
+                //console.log(user.photoURL);
             } else {
                 this.setState({
                     user: null,
                 });
                 
             }
-            console.log(this.state.user['displayName']);
+            //console.log(this.state.user['displayName']);
         });
     }
 
     render() {
         signOutUser = async () => {
-            //this.props.navigation.navigate('Login');
+            
             try {
                 await firebase.auth().signOut(); 
-                console.log('out')       
+                this.props.navigation.navigate('Login');
+                console.log('out');       
             } catch (e) {
                 console.log(e);
             }
