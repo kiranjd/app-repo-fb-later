@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
-export class CameraVid extends Component {
+export default class CameraVid extends Component {
     constructor(props) {
         super(props);
         this.state = {

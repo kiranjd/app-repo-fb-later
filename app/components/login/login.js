@@ -1,13 +1,12 @@
-
 import React, { Component } from 'react';
 import { 
   StyleSheet, 
   Text, 
   View, 
-  Dimensions, 
   Image, 
   ImageBackground, 
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
  } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -16,18 +15,47 @@ import { TextField } from 'react-native-material-textfield';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { handleFbLogin } from '../../fb/auth';
 import { hangleGoogleLogIn } from '../../google/google';
+import firebase from 'react-native-firebase';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: null,
+      email: '',
+      password: '',
     };
   }
 
   componentDidMount() {
     SplashScreen.hide();
+  }
 
+  handleSignUp = () => {
+    const {email, password} = this.state;
+    var validInputs = true;
+    if(email == '') {
+      Alert.alert('Enter email');
+      validInputs = false;
+    }  
+
+    if(password == '') {
+      validInputs = false;
+    }
+
+    if(validInputs) {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => Alert.alert('Your account has been created successfully.'))
+      .catch(error => {
+        console.log(error);
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(this.state.email, this.state.password)
+          .catch(error => this.setState({ errorMessage: error.message }))
+      })
+    }
   }
 
   static navigationOptions = {
@@ -35,21 +63,29 @@ export default class Login extends Component {
   }
   render() {
     return (
-      // <View style={styles.container}>
-      //   <View style={styles.logoContainer}>
-      //     <Image 
-      //       style={styles.logo} 
-      //       source={require('../Images/Logo.png')}
-      //      />
-      //   </View>
-      //   <Loginform navigation={this.props.navigation}/>
-      // </View>
-      <ImageBackground source={require('../Images/background.jpg')} style={styles.backgroundContainer}>
-        <Text style={{marginTop:'65%',fontSize:35,color:'#AE1EF2',marginLeft:270}}>
+      <ImageBackground source={require('../Images/background.png')} style={styles.backgroundContainer}>
+        {/* <View style={{flex: 1, backgroundColor: 'black', flexDirection: 'row'}}>
+          <View style={{backgroundColor: 'black', height: hp('40%'), width: wp('8%'), margin: 5, borderBottomLeftRadius: 50, borderBottomRightRadius: 50}}>
+          </View>
+          <View style={{backgroundColor: 'black', height: hp('5%'), width: wp('2%'), margin: 5}}>
+          </View>
+        </View> */}
+        <Text style={{marginTop: hp('36%'),fontSize:35,color:'#AE1EF2',marginLeft:wp('63%')}}>
           Login
         </Text>
-        <View style={{ justifyContent:'center', alignItems: 'center', marginTop: '20%', }}>
-          <View style={{ width: wp('90%'), flexDirection: 'row', borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', paddingBottom: 10, paddingTop: 0 }}>
+        <View style={{ justifyContent:'center', alignItems: 'center', marginTop: hp('8%'), }}>
+          <View style={{ 
+                    width: wp('90%'), 
+                    flexDirection: 'row', 
+                    borderRadius: 100, 
+                    borderWidth: 1,
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    backgroundColor: 'white', 
+                    paddingBottom: 10, 
+                    paddingTop: 0,
+                    borderColor: '#AE1EF2' 
+                    }}>
             <View style={{ marginRight: 20, marginTop: 10 }}>
               <Icon
                 name='user'
@@ -57,16 +93,39 @@ export default class Login extends Component {
                 color='#AE1EF2'
               />
             </View>
-            <View style={{ height: hp('5%'), justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
+            <View style={{ 
+                      height: hp('5%'), 
+                      justifyContent: 'center', 
+                      alignItems: 'center', 
+                      marginBottom: 5,
+                      }}>
               <TextField
-                label='User name'
+                label='Email'
                 animationDuration={255}
                 containerStyle={{ width: wp('70%') }}
+                lineWidth={0}
+                activeLineWidth={0}
+                maxLength={30}
+                onChangeText={value => this.setState({email: value})}
               />
             </View>
           </View>
 
-          <View style={{ width: wp('90%'), flexDirection: 'row', borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',marginTop:20, paddingBottom: 10, paddingTop: 0 }}>
+          <View style={{ 
+                  width: wp('90%'), 
+                  flexDirection: 'row', 
+                  borderRadius: 100, 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  backgroundColor: 'white',
+                  marginTop:20, 
+                  paddingBottom: 10, 
+                  paddingTop: 0,
+                  borderRadius: 100, 
+                  borderWidth: 1, 
+                  borderColor: '#AE1EF2', 
+                  }}
+                >
             <View style={{ marginRight: 20, marginTop: 10 }}>
               <Icon
                 name='key'
@@ -77,17 +136,20 @@ export default class Login extends Component {
             <View style={{ height: hp('5%'), justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
               <TextField
                 label='Password'
-                animationDuration={500}
+                animationDuration={255}
                 containerStyle={{ width: wp('70%') }}
                 secureTextEntry={true}
-                //
+                lineWidth={0}
+                activeLineWidth={0}
+                maxLength={12}
+                onChangeText={value => this.setState({password: value})}
               />
             </View>
           </View>
         </View>
 
         <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={this.handleSignUp}>
           <Text 
             style={{
               fontSize:15, 
@@ -98,12 +160,14 @@ export default class Login extends Component {
               backgroundColor:'#AE1EF2', 
               borderBottomRightRadius:20, 
               borderTopRightRadius:20, 
-              padding:'2%'}}
+              padding:'2%',
+              marginTop: hp('2%')
+            }}
             >Login</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={{fontSize:15, color:'white', marginHorizontal: 100, marginTop: 10}}>
-          Forget Password?
+        <Text style={{fontSize:15, color:'black', marginLeft: wp('25%'), marginTop: hp('3%')}}>
+          Forgot Password?
         </Text>
         </TouchableOpacity>
         </View>
@@ -121,8 +185,6 @@ export default class Login extends Component {
               flexDirection: 'row',
               marginLeft: wp('40%'),
               backgroundColor:'#AE1EF2', 
-              // paddingBottom: hp('0.5%'),
-              // paddingLeft: wp('2%'),
             }}
             >
              <TouchableOpacity onPress={handleFbLogin}>
@@ -145,57 +207,23 @@ export default class Login extends Component {
                     </TouchableOpacity>
 
           </View>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('SendOTPScreen')}>
-        <Text style={{fontSize:15, color:'white',alignContent:'center',marginHorizontal:100}}>
-          Create New Account? 
-          <Text style={{fontSize:15, color:'#AE1EF2'}}>SignUp</Text>
+        <TouchableOpacity style={{marginBottom: hp('5%')}} onPress={() => this.props.navigation.navigate('SendOTPScreen')}>
+        <Text style={{fontSize:15, color:'black',alignContent:'center',marginHorizontal:100}}>
+          Create new account? 
+          <Text style={{fontSize:15, color:'#ae1ef2'}}> Sign up</Text>
         </Text>
         </TouchableOpacity>
-
       </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //    flex: 1,
-  //    backgroundColor: '#fff'
-  // },
-
-  // logoContainer: {
-  //   alignItems: 'center',
-  //   marginTop: hp('6%')
-  // },
-
-  // logo: {
-  //   width: wp('60%'),
-  //   height: hp('35%')
-  // },
-
-  // title: {
-  //   color : '#FF9800',
-  //   marginTop: 10,
-  //   width: 200,
-  //   textAlign: 'center',
-  //   opacity: 0.9,
-  //   fontSize: 50,
-  //   fontWeight: 'bold',
-  // },
-
-  // Loginform: {
-  //   justifyContent: 'center'
-  // }
-
   backgroundContainer: {
     flex: 1,
     width: null,
     height: null,
     justifyContent: 'center',
-    // alignItems: 'center',
   },
-
-
-
 
 });

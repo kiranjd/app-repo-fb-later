@@ -34,6 +34,7 @@ export default class Home extends Component {
                     title="Start Class"
                     raised
                     containerStyle={styles.cardButton}
+                    onPress = {() => this.props.navigation.navigate('SendOTPScreen')}
                 />
                 <Button
                     icon={
@@ -49,6 +50,7 @@ export default class Home extends Component {
                     title="Go Live!"
                     style={styles.cardButton}
                     containerStyle={styles.cardButton}
+                    onPress = {() => this.props.navigation.navigate('Camera')}
                 />
             </View>
         );

@@ -9,6 +9,7 @@ import Help from '../components/help/help';
 import Profile from '../components/profile/profile';
 import Settings from '../components/settings/settings';
 import LastClasses from '../components/lastClasses/lastClasses';
+import CameraVid from '../components/video/camera'
 import SideMenu from './sideMenu';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HeaderBar from '../components/common/headerBar';
@@ -52,6 +53,9 @@ const MainDrawer = createDrawerNavigator(
     },
     header: {
       screen: HeaderBar,
+    }, 
+    Camera: {
+      screen: CameraVid,
     }
   },     {
     contentComponent: SideMenu,

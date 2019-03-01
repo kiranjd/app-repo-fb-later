@@ -50,7 +50,7 @@ export default class SideMenu extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.profileDetails}>
-                <StatusBar translucent backgroundColor="rgba(0, 0, 0, 0.0)"
+                <StatusBar backgroundColor="blue"
   animated />
                     <Button title="SVJK" onPress={() => { this.props.navigation.navigate('Logout') }} />
                         <Image containerStyle={styles.imageContainer} style={styles.profileImage} source={{uri: this.state.profileUrl+'?height=200'}}/>
