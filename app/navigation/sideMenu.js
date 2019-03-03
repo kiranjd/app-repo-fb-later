@@ -76,7 +76,7 @@ export default class SideMenu extends Component {
                     </View>
                     <View style={styles.iconWithText}>
                         <Icon name='chart' type='evilicon' color='white' />
-                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('UpdateProfile') }}>Help</Text>
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('UpdateProfile') }}>Update Profile</Text>
                     </View>
                     <View style={styles.iconWithText}>
                         <Icon name='close' type='evilicon' color='white' />

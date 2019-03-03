@@ -42,9 +42,6 @@ const MainDrawer = createDrawerNavigator(
     Calendar: {
       screen: calendars,
     },
-    Settings: {
-      screen: Settings,
-    },
     Help: {
       screen: Help,
       title: 'Help'
@@ -55,8 +52,11 @@ const MainDrawer = createDrawerNavigator(
     header: {
       screen: HeaderBar,
     }, 
-    Camera: {
-      screen: CameraVid,
+    UpdateProfile: {
+      screen: UpdateProfile,
+      navigationOptions : {
+        title: 'Enter your details',
+      }
     }
   },     {
     contentComponent: SideMenu,

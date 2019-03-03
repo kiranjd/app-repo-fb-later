@@ -31,6 +31,8 @@ export default class UpdateProfile extends Component {
 
     render() {
 
+            const { firstName, lastName, email} = this.state;
+
             let data = [{
               value: 'Banana',
             }, {
