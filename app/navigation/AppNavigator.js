@@ -14,6 +14,7 @@ import SideMenu from './sideMenu';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HeaderBar from '../components/common/headerBar';
 import HandleLogin from '../components/login/HandleUserState';
+import UpdateProfile from '../components/signUp/SignupForm';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -66,14 +67,16 @@ const MainDrawer = createDrawerNavigator(
 const LoginStack = createStackNavigator(
   {
     Login: Login,
+
     SendOTPScreen: {
       screen: numberEntry,
       navigationOptions : {
         title: 'Phone validation',
       }
     },
-    SignupDetails: {
-      screen: SignupForm,
+
+    UpdateProfile: {
+      screen: UpdateProfile,
       navigationOptions : {
         title: 'Enter your details',
       }
@@ -84,9 +87,9 @@ const LoginStack = createStackNavigator(
 
 const AppNavigator = createSwitchNavigator(
   {
-    UserState: {
-      screen: HandleLogin
-    },
+    // UserState: {
+    //   screen: HandleLogin
+    // },
 
     BeforeLogin: {
       screen: LoginStack
