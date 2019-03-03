@@ -22,6 +22,7 @@ export default class Signup extends Component {
             verified: false,
             autoVerify: false,
             blur: 0,
+            showOverlay: true,
         };
     }
 
@@ -33,10 +34,6 @@ export default class Signup extends Component {
                 // User has been signed out, reset the state
                 this.setState({
                     user: null,
-                    message: '',
-                    codeInput: '',
-                    phoneNumber: '+91',
-                    confirmResult: null,
                 });
             }
         });
@@ -52,7 +49,6 @@ export default class Signup extends Component {
         console.log(phoneNumber);
         firebase.auth()
             .verifyPhoneNumber(phoneNumber)
-            //7353831649
             .on('state_changed', (phoneAuthSnapshot) => {
                 switch (phoneAuthSnapshot.state) {
                     case firebase.auth.PhoneAuthState.AUTO_VERIFY_TIMEOUT:
@@ -62,7 +58,7 @@ export default class Signup extends Component {
                                 console.log(this.state.confirmResult);
                             })
                             .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
-                    case firebase.auth.PhoneAuthState.CODE_SENT: // or 'sent'
+                    case firebase.auth.PhoneAuthState.CODE_SENT:
                         this.setState({ codeSent: true });
                         console.log('code sent');
                         break;
@@ -72,8 +68,6 @@ export default class Signup extends Component {
                         const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code);
                         firebase.auth().signInWithCredential(credential);
                         this.setState({ message: 'Number has been verified.' });
-                        //console.log('auto verified on android with OTP:');
-                        //console.log(phoneAuthSnapshot);
                         break;
                 }
             }, (error) => {
@@ -88,6 +82,8 @@ export default class Signup extends Component {
             confirmResult.confirm(codeInput)
                 .then((user) => {
                     this.setState({ message: 'Code Confirmed!', verified: true });
+                    this.setState({showOverlay: false});
+                    this.props.navigation.navigate('UpdateProfile');
                 })
                 .catch(error => this.setState({ message: `Code Confirm Error: ${error.message}` }));
         }
@@ -97,28 +93,89 @@ export default class Signup extends Component {
         const { codeInput } = this.state;
 
         return (
-            <View style={styles.messageTextContainer}>
-                <Text style={styles.messageText}>Auto-verificaion unsuccessful. Please enter the verification code below:</Text>
-                <TextInput
-                    autoFocus
-                    placeholder="Enter OTP"
-                    placeholderTextColor='#3358ff'
-                    underlineColorAndroid='#3358ff'
-                    returnKeyType="next"
-                    keyboardType="number-pad"
-                    autoCorrect={false}
-                    onChangeText={value => this.setState({ codeInput: value })}
-                    value={codeInput}
-                    style={styles.inputMessage}
-                />
-                <TouchableOpacity style={styles.buttonInsideContainer}>
-                    <Text
-                        style={styles.buttonTextInside}
-                        onPress={this.confirmCode}
-                    >Confirm OTP</Text>
-                </TouchableOpacity>
-
-            </View>
+            // <View style={styles.messageTextContainer}>
+            //     <Text style={styles.messageText}>Auto-verificaion unsuccessful. Please enter the verification code below:</Text>
+            //     <TextInput
+            //         autoFocus
+            //         placeholder="Enter OTP"
+            //         placeholderTextColor='#3358ff'
+            //         underlineColorAndroid='#3358ff'
+            //         returnKeyType="next"
+            //         keyboardType="number-pad"
+            //         autoCorrect={false}
+            //         onChangeText={value => this.setState({ codeInput: value })}
+            //         value={codeInput}
+            //         style={styles.inputMessage}
+            //     />
+            //     <TouchableOpacity style={styles.buttonInsideContainer}>
+            //         <Text
+            //             style={styles.buttonTextInside}
+            //             onPress={this.confirmCode}
+            //         >Confirm OTP</Text>
+            //     </TouchableOpacity>            
+            //</View>
+                        <View>
+                        <View style={{ 
+                                            width: wp('90%'), 
+                                            flexDirection: 'row', 
+                                            borderRadius: 100, 
+                                            borderWidth: 1,
+                                            justifyContent: 'center', 
+                                            alignItems: 'center', 
+                                            backgroundColor: 'white', 
+                                            paddingBottom: 10, 
+                                            paddingTop: 0,
+                                            borderColor: '#AE1EF2', 
+                                            marginLeft: wp('5%'),
+                                            marginTop: hp('5%')
+                                            }}>
+                                    <View style={{ marginRight: 20, marginTop: 10 }}>
+                                      <Icon
+                                        name='mobile'
+                                        size={24}
+                                        color='#AE1EF2'
+                                      />
+                                    </View>
+                                    <View style={{ 
+                                              height: hp('5%'), 
+                                              justifyContent: 'center', 
+                                              alignItems: 'center', 
+                                              marginBottom: 5,
+                                              }}>
+                                      <TextField
+                                        label='Enter OTP'
+                                        animationDuration={255}
+                                        containerStyle={{ width: wp('70%') }}
+                                        lineWidth={0}
+                                        activeLineWidth={0}
+                                        maxLength={13}
+                                        returnKeyType="next"
+                                        keyboardType="number-pad"
+                                        onChangeText={value => this.setState({ codeInput: value })}
+                                        value={codeInput}
+                                        onFocus={() => this.setState({ blur: 5 })}
+                                        onEndEditing={() => this.setState({ blur: 0 })}
+                                      />
+                                    </View>
+                                  </View>
+                        
+                                <TouchableOpacity onPress={this.confirmCode}>
+                                  <Text 
+                                    style={{
+                                      fontSize:15, 
+                                      width: wp('40%'), 
+                                      height: 40, 
+                                      color:'white', 
+                                      textAlign:'center', 
+                                      backgroundColor:'#AE1EF2', 
+                                      borderRadius: 20,
+                                      padding:'2%',
+                                      marginTop: hp('2%'),
+                                      marginLeft: wp('30%')
+                                    }}
+                                    >Confirm OTP</Text>
+                                </TouchableOpacity>
+                                    </View>
         );
     }
 
@@ -194,7 +251,7 @@ export default class Signup extends Component {
     waitForOtp() {
         return (
             <Overlay 
-                isVisible={true} 
+                isVisible={this.state.showOverlay} 
                 height={hp('25%')} 
                 width={wp('60%')} 
                 borderRadius={10}
@@ -211,12 +268,12 @@ export default class Signup extends Component {
     verified() {
         return (
             <Overlay 
-            isVisible={true} 
+            isVisible={this.state.showOverlay} 
             height={hp('25%')} 
             width={wp('60%')} 
             borderRadius={10}
         >
-         <Text style={styles.messageText}>OTP has been successfully verified.</Text>
+         <Text style={styles.messageText}>OTP has been successfully verified</Text>
                 <TouchableOpacity style={styles.buttonInsideContainer}>
                     <Text
                         style={styles.buttonTextInside}
@@ -229,15 +286,40 @@ export default class Signup extends Component {
 
     autoVerify() {
         return (
-            <View style={styles.messageTextContainer}>
-                <Text style={styles.messageText}>Your number has been automatically verified!</Text>
-                <TouchableOpacity style={styles.buttonInsideContainer}>
-                    <Text
-                        style={styles.buttonTextInside}
-                        onPress={() => this.props.navigation.navigate('SignupDetails')}
-                    >CONTINUE</Text>
-                </TouchableOpacity>
+            <Overlay 
+            isVisible={this.state.showOverlay} 
+            height={hp('25%')} 
+            width={wp('60%')} 
+            borderRadius={10}
+        >
+           <View style={{margin: 10}}>
+                <Text style={{
+                        textAlign: 'center', 
+                        fontSize: 20, 
+                        fontWeight: 'bold', 
+                        marginBottom: 20}
+                    }>
+                    Mobile number is verified</Text>
+        <TouchableOpacity onPress={() => {
+            this.setState({showOverlay: false});
+            this.props.navigation.navigate('UpdateProfile');
+        }}>
+          <Text 
+            style={{
+              fontSize:15, 
+              width: wp('40%'), 
+              height: 40, 
+              color:'white', 
+              textAlign:'center', 
+              backgroundColor:'#AE1EF2', 
+              borderRadius: 20,
+              padding:'2%',
+              marginLeft: wp('6%')
+            }}
+            >Continue</Text>
+        </TouchableOpacity>
             </View>
+        </Overlay>
         )
     }
 
@@ -255,10 +337,8 @@ export default class Signup extends Component {
         </Text>
 
                 {!autoVerify && !codeSent && !confirmResult && this.renderPhoneNumberInput()}
-                {/* //If user not present, then present the enter mobile number component
-                 {!user && !confirmResult && this.renderPhoneNumberInput()} */}
+
                 {codeSent && !confirmResult && this.waitForOtp()}
-                {/* <Text>{this.state.message}</Text> */}
 
                 {!verified && confirmResult && this.renderVerificationCodeInput()}
 
@@ -275,65 +355,5 @@ const styles = StyleSheet.create({
         flex: 1,
         width: wp('100%'),
         height: hp('100%'),
-        
-        //justifyContent: 'center',
-        //alignItems: 'center'
     },
-
-    // input: {
-    //     height: hp('5%'),
-    //     marginBottom: hp('2%'),
-    //     marginHorizontal: wp('8%'),
-    //     borderBottomColor: '#fff',
-    //     color: '#fff'
-    // },
-
-    // inputMessage: {
-    //     height: hp('5%'),
-    //     marginBottom: hp('2%'),
-    //     marginHorizontal: wp('8%'),
-    //     borderBottomColor: '#fff',
-    //     color: '#3358ff'
-    // },
-
-    // messageText: {
-    //     color: '#3358ff',
-    //     textAlign: 'center',
-    //     fontSize: wp('5%'),
-    //     margin: wp('5%')
-    // },
-
-    // messageTextContainer: {
-    //     borderWidth: wp('0.5%'),
-    //     borderRadius: wp('1%'),
-    //     margin: wp('2.5%'),
-    //     padding: wp('2.5%'),
-    //     backgroundColor: '#fff'
-    // },
-
-    // buttonContainer: {
-    //     backgroundColor: '#fff',
-    //     paddingVertical: hp('1%'),
-    //     marginHorizontal: wp('8%'),
-    // },
-
-    // buttonText: {
-    //     textAlign: 'center',
-    //     color: '#3358ff',
-    //     fontWeight: '900',
-    //     fontSize: wp('5%'),
-    // },
-
-    // buttonTextInside: {
-    //     textAlign: 'center',
-    //     color: '#fff',
-    //     fontWeight: '900',
-    //     fontSize: wp('5%'),
-    // },
-
-    // buttonInsideContainer: {
-    //     backgroundColor: '#3358ff',
-    //     paddingVertical: hp('1%'),
-    //     marginHorizontal: wp('8%'),
-    // },
 });

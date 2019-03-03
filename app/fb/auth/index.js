@@ -3,12 +3,27 @@ import Auth from '../config/auth';
 
 const fbLoginPermissions = ['email'];
 
-export const handleFbLogin = () => (
-  Auth.Facebook.login(fbLoginPermissions)
+var common = '';
+
+export function handleFbLogin() {
+  Auth.Facebook.login(['email'])
     .then((token) => {
       console.log(token);
       firebase.auth()
-        .signInWithCredential(firebase.auth.FacebookAuthProvider.credential(token));
+        .signInWithCredential(firebase.auth.FacebookAuthProvider.credential(token))
+        .catch((err) => {
+          if(err.code === 'auth/account-exists-with-different-credential') {
+            console.log('Gotchu!');
+            return 'doseed'
+          }
+        })
     })
-    .catch((err) => console.log(err))
-);
+    .catch((err) => {
+      console.log(err.code);   
+    })
+};
+
+export function emailRed() {
+  debugger;
+  return common;
+}

@@ -14,22 +14,34 @@ export default class HandleLogin extends Component {
           };
     }
 
+    // componentWillMount() {
+    //     SplashScreen.hide(); 
+    //     //this.props.navigation.navigate('Login');
+    //     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //             this.setState({ user: user.toJSON() });
+    //             console.log(user);
+    //             //this.props.navigation.navigate('Home');
+    //         } else {
+    //             // User has been signed out, reset the state
+    //             this.setState({
+    //                 user: null,
+    //             });
+    //             
+    //         }
+    //     });
+    // }
+
+    // componentWillUnmount() {
+    //     this.unsubscribe();
+    // }
+
+    componentWillMount() {
+        SplashScreen.hide();
+        this.props.navigation.navigate('Login');
+    }
+
     render() {   
-        SplashScreen.hide(); 
-        //this.props.navigation.navigate('Login');
-        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({ user: user.toJSON() });
-                console.log(user);
-                this.props.navigation.navigate('Home');
-            } else {
-                // User has been signed out, reset the state
-                this.setState({
-                    user: null,
-                });
-                this.props.navigation.navigate('Login');
-            }
-        });
         return (
             null
         );
