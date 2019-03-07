@@ -1,100 +1,107 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, ToastAndroid, BackHandler } from 'react-native';
+import { Button, Overlay } from 'react-native-elements';
 import HeaderBar from '../common/headerBar';
 import { TextField } from 'react-native-material-textfield';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { NodeCameraView } from 'react-native-nodemediaclient';
 
 export default class Help extends Component {
-    render() {
-        return (
-            // <View style={styles.container}>
-            //     <Text style={styles.info}>Computer Prof.</Text>
-            //     <Text style={styles.description}>Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,</Text>
+    constructor(props) {
+        super(props);
+        this.state = {
+            publishBtnTitle: 'START PUBLISH',
+            isPublish: false,
+            time: 0,
+        }
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
 
-            // </View>
-            <View style={styles.container}>
-                <HeaderBar navigation={this.props.navigation} />
-                <View style={{justifyContent: 'center',alignItems: 'center', marginTop: 10}}>
-                <View style={{width: wp('90%'), flexDirection: 'row', borderRadius: 100, justifyContent: 'center',alignItems: 'center', backgroundColor: 'skyblue' , paddingBottom: 10, paddingTop: 0}}>
-                    <View style={{ marginRight: 20, marginTop: 10 }}>
+    componentWillMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+    
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+    
+    handleBackButtonClick() {
+        Alert.alert('p');
+        this.props.navigation.goBack(null);
+        return true;
+    }
+    
+
+    render() {
+        
+
+        return (
+            <View style={{ flex: 1 }}>
+                <Overlay
+                    isVisible={true}
+                    overlayStyle={{
+                        width: wp('100%'),
+                        height: 70,
+                        position: 'absolute',
+                        bottom: hp('7%'),
+                        left: wp('42%'),
+                        backgroundColor: 'transparent',
+                        flex: 1,
+                        flexDirection: 'row',
+                        borderWidth: 0,
+                        elevation: 0,
+                    }}
+                >
+                    <Button
+                        buttonStyle={{
+                            borderRadius: 100,
+                            width: 70,
+                            height: 70,
+                            borderRadius: 200 / 2,
+                            borderWidth: 3,
+                            backgroundColor: 'red',
+                            borderColor: 'white'
+                        }}
+                        onPress={() => {
+                            if (this.state.isPublish) {
+                                this.setState({ publishBtnTitle: 'Start Publish', isPublish: false });
+                                this.vb.stop();
+                                ToastAndroid.show('Publish Ended', ToastAndroid.SHORT);
+                            } else {
+                                this.setState({ publishBtnTitle: 'Stop Publish', isPublish: true });
+                                this.vb.start();
+                                ToastAndroid.show('Publish Started', ToastAndroid.SHORT);
+                            }
+                        }}
+                        //title={this.state.publishBtnTitle}
+                        color="#841584"
+                    />
+                    <Button
+                    onPress={() => {
+                        this.vb.switchCamera();
+                    }}
+                    icon={
                         <Icon
-                            name='user'
-                            size={24}
-                            color='black'
+                          name="refresh"
+                          size={45}
+                          color="white"
                         />
-                    </View>
-                    <View style={{height: hp('5%'), justifyContent: 'center',alignItems: 'center', marginBottom: 5 }}>
-                        <TextField
-                            label='Phone number'
-                            animationDuration='200'
-                            containerStyle={{width: wp('70%')}}
-                        />
-                    </View>
-                </View>
-                </View>
-                <View style={StyleSheet.inputWithIcon}>
-                    <View>
-                        <Icon
-                            name='user'
-                            size={24}
-                            color='black'
-                        />
-                    </View>
-                    <View>
-                        <TextField
-                            label='Phone number'
-                            animationDuration='255'
-                            containerStyle={styles.input}
-                        />
-                    </View>
-                </View>
-                <ListItem
-                    title='FAQ'
-                    titleStyle={{ color: 'black', fontWeight: 'bold' }}
+                    }
+                    buttonStyle={{height: hp('8%'), width: hp('8%'), backgroundColor: 'transparent',marginTop: hp('0.5%'), marginLeft: wp('14%')}}
                 />
-                <ListItem
-                    title='Contact us'
-                    titleStyle={{ color: 'black', fontWeight: 'bold' }}
-                    subtitle='Questions? Need help?'
-                />
-                <ListItem
-                    title='Terms and Privacy Policy'
-                    titleStyle={{ color: 'black', fontWeight: 'bold' }}
-                />
-                <ListItem
-                    title='App info'
-                    titleStyle={{ color: 'black', fontWeight: 'bold' }}
+                </Overlay>
+
+                <NodeCameraView
+                    style={{ height: '100%' }}
+                    ref={(vb) => { this.vb = vb }}
+                    outputUrl={"rtmp://testapi.flaplive.com/live/ath_svjk"}
+                    camera={{ cameraId: 0, cameraFrontMirror: true }}
+                    audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
+                    video={{ preset: 12, bitrate: 400000, profile: 1, fps: 15, videoFrontMirror: false }}
+                    autopreview={true}
                 />
             </View>
-        )
+        );
     }
-
 }
-const styles = StyleSheet.create({
-    inputWithIcon: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-    },
-
-    input: {
-        width: wp('70%'),
-    },
-
-    info: {
-        fontSize: 16,
-        color: "#00BFFF",
-        marginTop: 10
-    },
-    description: {
-        fontSize: 16,
-        color: "#696969",
-        marginTop: 10,
-        textAlign: 'center'
-    },
-    container: {
-        flex: 1,
-    }
-});

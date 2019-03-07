@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, Image, StatusBar, PermissionsAndroid } from 'react-native';
 import { Icon } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 
@@ -13,6 +13,37 @@ export default class SideMenu extends Component {
             displayName: '',
             profileUrl: '',
         }
+
+        requestCameraPermission();
+        requestAudioPermission();
+        async function requestCameraPermission() {
+            try {
+              const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.CAMERA
+              );
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('You can use the camera');
+              } else {
+                console.log('Camera permission denied');
+              }
+            } catch (err) {
+              console.warn(err);
+            }
+          }
+          async function requestAudioPermission() {
+            try {
+              const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
+              );
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                console.log('You can record audio');
+              } else {
+                console.log('Audio permission denied');
+              }
+            } catch (err) {
+              console.warn(err);
+            }
+          }
     }
 
     componentDidMount() {
@@ -49,8 +80,7 @@ export default class SideMenu extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.profileDetails}>
-                <StatusBar backgroundColor="blue"
-  animated />
+                <StatusBar backgroundColor="blue" animated />
                     <Button title="SVJK" onPress={() => { this.props.navigation.navigate('Logout') }} />
                         <Image containerStyle={styles.imageContainer} style={styles.profileImage} source={{uri: this.state.profileUrl+'?height=200'}}/>
                     <Text style={styles.profileName}>{this.state.displayName}</Text>
@@ -133,7 +163,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         color: 'white',
-        //fontFamily: 'monospace',
         marginTop: hp('2%'),
         marginBottom: hp('2%'),
         fontSize: 20

@@ -75,12 +75,12 @@ const LoginStack = createStackNavigator(
       }
     },
 
-    UpdateProfile: {
-      screen: UpdateProfile,
-      navigationOptions : {
-        title: 'Enter your details',
-      }
-    },
+    // UpdateProfile: {
+    //   screen: UpdateProfile,
+    //   navigationOptions : {
+    //     title: 'Enter your details',
+    //   }
+    //},
   }
 );
 

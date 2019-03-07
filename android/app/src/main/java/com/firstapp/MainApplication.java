@@ -3,6 +3,9 @@ package com.firstapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import cn.nodemedia.react_native_nodemediaclient.NodeMediaReactPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
 import com.magus.fblogin.FacebookLoginPackage;
 import org.reactnative.camera.RNCameraPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
@@ -14,7 +17,6 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new NodeMediaReactPackage(),
+            new SplashScreenReactPackage(),
             new FacebookLoginPackage(),
             new RNCameraPackage(),
             new RNGoogleSigninPackage(),
@@ -39,8 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGestureHandlerPackage(),
             new RNFirebaseAuthPackage(),
               new BulbPackage(),
-              new StreamPackage(),
-              new SplashScreenReactPackage()
+              new StreamPackage()
       );
     }
 
