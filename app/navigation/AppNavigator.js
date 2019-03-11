@@ -15,6 +15,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import HeaderBar from '../components/common/headerBar';
 import HandleLogin from '../components/login/HandleUserState';
 import UpdateProfile from '../components/signUp/SignupForm';
+import AddUserInfo from '../components/signUp/AddUserInfo';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -52,6 +53,10 @@ const MainDrawer = createDrawerNavigator(
     header: {
       screen: HeaderBar,
     }, 
+    AddUserInfo: {
+      screen: AddUserInfo,
+    },
+
     UpdateProfile: {
       screen: UpdateProfile,
       navigationOptions : {

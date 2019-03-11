@@ -32,7 +32,7 @@ export default class Home extends Component {
                     title="Start Class"
                     raised
                     containerStyle={styles.cardButton}
-                    onPress = {() => this.props.navigation.navigate('SendOTPScreen', { screenName: 'OTP to parent'})}
+                    onPress = {() => this.props.navigation.navigate('AddUserInfo', { screenName: 'OTP to parent'})}
                 />
                 <Button
                     icon={

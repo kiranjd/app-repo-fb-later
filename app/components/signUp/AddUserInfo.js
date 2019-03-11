@@ -17,7 +17,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 import firebase from 'react-native-firebase';
 import HeaderBar from '../common/headerBar';
 
-export default class UpdateProfile extends Component {
+export default class AddUserInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,46 +25,44 @@ export default class UpdateProfile extends Component {
             lastName: '',
             email: '',
             userType: '',
+            goToHome: false,
         }
     }
 
     componentDidMount() {
         var user = firebase.auth().currentUser;
+        if(user.displayName !== null) {
         let firstName = user.displayName.split(" ", 1);
         let lastName = user.displayName.split(/ (.+)/)[1];
-        //debugger;
         this.setState({
             firstName: firstName.toString(),
             lastName: lastName,
-            email: user.email
         });
     }
+    }
 
-    updateUser() {
+    updateUser= () => {
         const {firstName, lastName, email } = this.state;
-        ToastAndroid.show('Updating user details...', ToastAndroid.SHORT);
+        //ToastAndroid.show('Updating user details...', ToastAndroid.SHORT);
         var user = firebase.auth().currentUser;
-        console.log(user);
-        user.updateProfile({
+        
+        user
+        .updateProfile({
             displayName: firstName + ' ' + lastName,
-        }).then(function () {
-            //this.props.navigation.navigate('SendOTPScreen');
+        })
+        .then(() => {
             ToastAndroid.show('Updated successfully', ToastAndroid.SHORT);
-        }).catch(function (error) {
-            alert('error');
+           this.props.navigation.navigate('Home');
+        })
+        .catch(function (error) {
+            alert(error);
         });
 
-        // user.updateEmail('sukshithzone@gmail.com').then(function() {
-        //     console.log('email added');
-        //   }).catch(function(error) {
-        //     // An error happened.
-        //   });
-
-        // user.sendEmailVerification().then(function() {
-        //     console.log('sent mail');
-        //   }).catch(function(error) {
-        //     // An error happened.
-        //   });
+        user.sendEmailVerification().then(function() {
+            console.log('sent mail');
+          }).catch(function(error) {
+            // An error happened.
+          });
     }
 
     render() {
@@ -78,11 +76,13 @@ export default class UpdateProfile extends Component {
             }
         ];
 
+        if(this.state.go == true) {
+        }
+
         return (
             <ImageBackground source={require('../Images/background.png')} style={styles.backgroundContainer}>
-            <HeaderBar navigation={this.props.navigation}/>
-                <Text style={{ fontSize: 35, color: '#AE1EF2', marginLeft: wp('56%'), marginTop: ('60%') }}>
-                    Update
+                <Text style={{ fontSize: 35, color: '#AE1EF2', marginLeft: wp('56%'), marginTop: ('67%') }}>
+                    Signup
                 </Text>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
 
@@ -135,7 +135,7 @@ export default class UpdateProfile extends Component {
                         </View>
                     </View>
                     <View style={{ width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
-                          justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgrey', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'  
+                          justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'  
                     }}
         
                     >
@@ -155,7 +155,6 @@ export default class UpdateProfile extends Component {
                                 activeLineWidth={0}
                                 //onChangeText={value => this.setState({ email: value })}
                                 value={email}
-                                editable={false}
                                 onPress={() => ToastAndroid.show('Updating user details...', ToastAndroid.SHORT)}
                             />
                         </View>
@@ -173,7 +172,7 @@ export default class UpdateProfile extends Component {
       </View>
 
                     <View style={{ flexDirection: 'row',marginTop:hp('1%')}}>
-                        <TouchableOpacity onPress={() => this.updateUser()}>
+                        <TouchableOpacity onPress={this.updateUser}>
                             <Text
                                 style={{
                                     width: wp('30%'),
@@ -186,7 +185,7 @@ export default class UpdateProfile extends Component {
                                     borderTopRightRadius: 20,
                                     padding: '2%',
                                 }}
-                            >Update</Text>
+                            >Signup</Text>
                         </TouchableOpacity>
                     </View>
 

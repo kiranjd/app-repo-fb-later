@@ -15,30 +15,35 @@ export default class SideMenu extends Component {
         }
 
         requestCameraPermission();
-        requestAudioPermission();
+        //requestAudioPermission();
         async function requestCameraPermission() {
             try {
               const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.CAMERA
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                {
+                  title: 'SVJK requires your permission to record audio',
+                  message:
+                    '',
+                  buttonNeutral: 'Ask Me Later',
+                  buttonNegative: 'Cancel',
+                  buttonPositive: 'OK',
+                },
+              );
+              const grantedAudio = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                {
+                  title: 'SVJK requires your permission to record audio',
+                  message:
+                    '',
+                  buttonNeutral: 'Ask Me Later',
+                  buttonNegative: 'Cancel',
+                  buttonPositive: 'OK',
+                },
               );
               if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 console.log('You can use the camera');
               } else {
                 console.log('Camera permission denied');
-              }
-            } catch (err) {
-              console.warn(err);
-            }
-          }
-          async function requestAudioPermission() {
-            try {
-              const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
-              );
-              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log('You can record audio');
-              } else {
-                console.log('Audio permission denied');
               }
             } catch (err) {
               console.warn(err);

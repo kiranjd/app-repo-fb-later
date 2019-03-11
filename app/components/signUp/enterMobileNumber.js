@@ -93,27 +93,6 @@ export default class Signup extends Component {
         const { codeInput } = this.state;
 
         return (
-            // <View style={styles.messageTextContainer}>
-            //     <Text style={styles.messageText}>Auto-verificaion unsuccessful. Please enter the verification code below:</Text>
-            //     <TextInput
-            //         autoFocus
-            //         placeholder="Enter OTP"
-            //         placeholderTextColor='#3358ff'
-            //         underlineColorAndroid='#3358ff'
-            //         returnKeyType="next"
-            //         keyboardType="number-pad"
-            //         autoCorrect={false}
-            //         onChangeText={value => this.setState({ codeInput: value })}
-            //         value={codeInput}
-            //         style={styles.inputMessage}
-            //     />
-            //     <TouchableOpacity style={styles.buttonInsideContainer}>
-            //         <Text
-            //             style={styles.buttonTextInside}
-            //             onPress={this.confirmCode}
-            //         >Confirm OTP</Text>
-            //     </TouchableOpacity>            
-            //</View>
                         <View>
                         <View style={{ 
                                             width: wp('90%'), 
@@ -277,7 +256,7 @@ export default class Signup extends Component {
                 <TouchableOpacity style={styles.buttonInsideContainer}>
                     <Text
                         style={styles.buttonTextInside}
-                        onPress={() => this.props.navigation.navigate('SignupDetails')}
+                        onPress={() => this.props.navigation.navigate('AddUserInfo')}
                     >CONTINUE</Text>
                 </TouchableOpacity>
         </Overlay>
@@ -302,7 +281,7 @@ export default class Signup extends Component {
                     Mobile number is verified</Text>
         <TouchableOpacity onPress={() => {
             this.setState({showOverlay: false});
-            this.props.navigation.navigate('UpdateProfile');
+            this.props.navigation.navigate('AddUserInfo');
         }}>
           <Text 
             style={{
