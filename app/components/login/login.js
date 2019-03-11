@@ -78,8 +78,8 @@ export default class Login extends Component {
   }
 
   fbPress() {
-    var test = handleFbLogin();
-    this.setState({ overlay: true })
+    handleFbLogin();
+    //this.setState({ overlay: true })
   }
 
   static navigationOptions = {
@@ -106,25 +106,27 @@ export default class Login extends Component {
           </View>
         </Overlay>
 
-        <Text style={{ marginTop: hp('36%'), fontSize: 35, color: '#AE1EF2', marginLeft: wp('63%') }}>
+        <Text style={{ marginTop: hp('37%'), fontSize: 35, color: '#AE1EF2', marginLeft: wp('63%') }}>
           Login
         </Text>
 
         {/* enter email and password  */}
-        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('8%'), marginRight: wp('5%') }}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('4%'), marginRight: wp('5%') }}>
           <View style={{
-            width: wp('75%'),
-            flexDirection: 'row',
-            borderRadius: 100,
-            borderWidth: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'white',
-            paddingBottom: 10,
-            paddingTop: 0,
-            borderColor: '#AE1EF2'
+             width: wp('75%'),
+             flexDirection: 'row',
+             borderRadius: 100,
+             justifyContent: 'center',
+             alignItems: 'center',
+             backgroundColor: 'white',
+             marginTop: 20,
+             paddingBottom: 10,
+             paddingTop: 0,
+             borderRadius: 100,
+             borderWidth: 1,
+             borderColor: '#AE1EF2',
           }}>
-            <View style={{ marginRight: 10, marginTop: 10 }}>
+            <View style={{ marginRight: 27, marginTop: 10 }}>
               <Icon
                 name='user'
                 size={24}
@@ -146,7 +148,6 @@ export default class Login extends Component {
                 activeLineWidth={0}
                 maxLength={30}
                 onChangeText={value => this.setState({ email: value })}
-                width={wp('50%')}
               />
             </View>
           </View>
@@ -173,7 +174,12 @@ export default class Login extends Component {
                 color='#AE1EF2'
               />
             </View>
-            <View style={{ height: hp('5%'), justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
+            <View style={{ 
+              height: hp('5%'), 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              marginBottom: 5 
+              }}>
               <TextField
                 label='Password'
                 animationDuration={255}
@@ -181,7 +187,7 @@ export default class Login extends Component {
                 secureTextEntry={true}
                 lineWidth={0}
                 activeLineWidth={0}
-                maxLength={12}
+                maxLength={16}
                 onChangeText={value => this.setState({ password: value })}
               />
             </View>
@@ -254,13 +260,16 @@ export default class Login extends Component {
         </View>
 
         {/* signup page - mobile */}
-        <TouchableOpacity style={{ marginBottom: hp('5%') }} onPress={() => {
+        <TouchableOpacity style={{ 
+            marginBottom: hp('5%'), 
+          }} 
+          onPress={() => {
           this.unsubscribe();
           this.props.navigation.navigate('SendOTPScreen');
         }}>
-          <Text style={{ fontSize: 15, color: 'black', alignContent: 'center', marginHorizontal: 100 }}>
-            Create new account?
-          <Text style={{ fontSize: 15, color: '#ae1ef2' }}> Sign up</Text>
+          <Text style={{ fontSize: 15, color: 'black', textAlign: 'center'}}>
+            New user?
+          <Text style={{ fontSize: 15, color: '#ae1ef2', textAlign: 'center' }}> Sign up</Text>
           </Text>
         </TouchableOpacity>
 

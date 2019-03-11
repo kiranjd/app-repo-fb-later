@@ -13,7 +13,13 @@ export const hangleGoogleLogIn = () => {
       // Create a new Firebase credential with the token
       const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
       // Login with the credential
-      return firebase.auth().signInWithCredential(credential);
+      firebase.auth()
+        .signInWithCredential(credential)
+        .catch((err) => {
+          if(err.code === 'auth/account-exists-with-different-credential') {
+      alert("An account is already in use with the email id. Use the same social login");
+          }
+        })
     })
     .then((user) => {
         console.log(user);

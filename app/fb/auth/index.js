@@ -13,8 +13,7 @@ export function handleFbLogin() {
         .signInWithCredential(firebase.auth.FacebookAuthProvider.credential(token))
         .catch((err) => {
           if(err.code === 'auth/account-exists-with-different-credential') {
-            console.log('Gotchu!');
-            return 'doseed'
+      alert("An account is already in use with the email id. Use the same social login");
           }
         })
     })
