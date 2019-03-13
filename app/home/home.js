@@ -48,7 +48,7 @@ export default class Home extends Component {
                     title="Go Live!"
                     style={styles.cardButton}
                     containerStyle={styles.cardButton}
-                    onPress = {() =>  this.props.navigation.navigate('Help')}
+                    onPress = {() =>  this.props.navigation.navigate('GoLive')}
                 />
             </View>
         );

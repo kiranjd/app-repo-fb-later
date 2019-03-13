@@ -30,18 +30,19 @@ export default class UpdateProfile extends Component {
 
     componentDidMount() {
         var user = firebase.auth().currentUser;
-        let firstName = user.displayName.split(" ", 1);
-        let lastName = user.displayName.split(/ (.+)/)[1];
-        //debugger;
-        this.setState({
-            firstName: firstName.toString(),
-            lastName: lastName,
-            email: user.email
-        });
+        if (user.displayName !== null) {
+            let firstName = user.displayName.split(" ", 1);
+            let lastName = user.displayName.split(/ (.+)/)[1];
+            this.setState({
+                firstName: firstName.toString(),
+                lastName: lastName,
+                email: user.email
+            });
+        }
     }
 
     updateUser() {
-        const {firstName, lastName, email } = this.state;
+        const { firstName, lastName, email } = this.state;
         ToastAndroid.show('Updating user details...', ToastAndroid.SHORT);
         var user = firebase.auth().currentUser;
         console.log(user);
@@ -69,18 +70,18 @@ export default class UpdateProfile extends Component {
 
     render() {
 
-            const { firstName, lastName, email} = this.state;
+        const { firstName, lastName, email } = this.state;
 
-            let data = [{
-              value: 'Teacher',
-            }, {
-              value: 'Student',
-            }
+        let data = [{
+            value: 'Teacher',
+        }, {
+            value: 'Student',
+        }
         ];
 
         return (
             <ImageBackground source={require('../Images/background.png')} style={styles.backgroundContainer}>
-            <HeaderBar navigation={this.props.navigation}/>
+                <HeaderBar navigation={this.props.navigation} />
                 <Text style={{ fontSize: 35, color: '#AE1EF2', marginLeft: wp('56%'), marginTop: ('60%') }}>
                     Update
                 </Text>
@@ -111,9 +112,10 @@ export default class UpdateProfile extends Component {
                         </View>
                     </View>
 
-                    <View style={{ width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
-                          justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' , borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
-                     }}>
+                    <View style={{
+                        width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
+                        justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
+                    }}>
                         <View style={{ marginRight: wp('5%'), marginTop: hp('1%') }}>
                             <Icon
                                 name='user'
@@ -134,10 +136,11 @@ export default class UpdateProfile extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{ width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
-                          justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgrey', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'  
+                    <View style={{
+                        width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
+                        justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgrey', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
                     }}
-        
+
                     >
                         <View style={{ marginRight: wp('5%'), marginTop: hp('1%') }}>
                             <Icon
@@ -160,19 +163,20 @@ export default class UpdateProfile extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{ width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
-                          justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' , borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
-                     }}>
+                    <View style={{
+                        width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
+                        justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
+                    }}>
 
-                    <Dropdown
-        label='User type'
-        data={data}
-        containerStyle={{width: wp('70%')}}
-        lineWidth={0}
-      />
-      </View>
+                        <Dropdown
+                            label='User type'
+                            data={data}
+                            containerStyle={{ width: wp('70%') }}
+                            lineWidth={0}
+                        />
+                    </View>
 
-                    <View style={{ flexDirection: 'row',marginTop:hp('1%')}}>
+                    <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
                         <TouchableOpacity onPress={() => this.updateUser()}>
                             <Text
                                 style={{

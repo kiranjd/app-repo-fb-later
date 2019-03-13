@@ -20,11 +20,13 @@
     "react-native-material-dropdown": "^0.11.1",
     "react-native-material-textfield": "^0.12.0",
     "react-native-nodemediaclient": "^0.1.2",
+    "react-native-orientation": "^3.1.3",
     "react-native-responsive-screen": "^1.2.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-thumbnail-video": "^0.1.2",
     "react-native-vector-icons": "^6.2.0",
-    "react-navigation": "^2.0.0"
+    "react-navigation": "^2.0.0",
+    "react-navigation-backhandler": "^1.2.0"
   },
   "devDependencies": {
     "babel-core": "7.0.0-bridge.0",

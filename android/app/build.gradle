@@ -145,6 +145,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-orientation')
     implementation project(':react-native-nodemediaclient')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-facebook-login')

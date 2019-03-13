@@ -5,7 +5,6 @@ import numberEntry from '../components/signUp/enterMobileNumber'
 import SignupForm from '../components/signUp/SignupForm';
 import Home from '../home/home'
 import calendars from '../components/calendar/calendar';
-import Help from '../components/help/help';
 import Profile from '../components/profile/profile';
 import Settings from '../components/settings/settings';
 import LastClasses from '../components/lastClasses/lastClasses';
@@ -16,6 +15,7 @@ import HeaderBar from '../components/common/headerBar';
 import HandleLogin from '../components/login/HandleUserState';
 import UpdateProfile from '../components/signUp/SignupForm';
 import AddUserInfo from '../components/signUp/AddUserInfo';
+import GoLive from '../components/goLive/goLive';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -27,8 +27,8 @@ const MainDrawer = createDrawerNavigator(
       screen: Profile,
     },
 
-    Help: {
-      screen: Help,
+    GoLive: {
+      screen: GoLive,
     },
     
     Account: {
@@ -42,10 +42,6 @@ const MainDrawer = createDrawerNavigator(
     },
     Calendar: {
       screen: calendars,
-    },
-    Help: {
-      screen: Help,
-      title: 'Help'
     },
     Logout: {
       screen: Login,

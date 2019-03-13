@@ -83,7 +83,7 @@ export default class Signup extends Component {
                 .then((user) => {
                     this.setState({ message: 'Code Confirmed!', verified: true });
                     this.setState({showOverlay: false});
-                    this.props.navigation.navigate('UpdateProfile');
+                    this.props.navigation.navigate('AddUserInfo');
                 })
                 .catch(error => this.setState({ message: `Code Confirm Error: ${error.message}` }));
         }
