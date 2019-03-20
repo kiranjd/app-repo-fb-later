@@ -25,9 +25,8 @@ export default class Profile extends Component {
     //this.props.navigation.navigate('Login');
     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
         if (user) {
+          console.log(user);
             this.setState({ user: user.toJSON(), displayName: user.displayName, profileUrl: user.photoURL+'?height=200' });
-            console.log(user);
-
             //this.props.navigation.navigate('Home');
         } else {
             // User has been signed out, reset the state

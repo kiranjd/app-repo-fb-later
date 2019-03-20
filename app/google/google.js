@@ -15,17 +15,18 @@ export const hangleGoogleLogIn = () => {
       // Login with the credential
       firebase.auth()
         .signInWithCredential(credential)
+        .then(user => {
+          if(user.additionalUserInfo.isNewUser){
+              this.props.navigation.navigate('LinkMobile');
+          } else {
+            console.log('old user');
+          }
+        })
         .catch((err) => {
           if(err.code === 'auth/account-exists-with-different-credential') {
       alert("An account is already in use with the email id. Use the same social login");
           }
         })
-    })
-    .then((user) => {
-        console.log(user);
-      // If you need to do anything with the user, do it here
-      // The user will be logged in automatically by the
-      // `onAuthStateChanged` listener we set up in App.js earlier
     })
     .catch((error) => {
       const { code, message } = error;

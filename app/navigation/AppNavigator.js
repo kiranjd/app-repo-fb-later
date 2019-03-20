@@ -16,6 +16,8 @@ import HandleLogin from '../components/login/HandleUserState';
 import UpdateProfile from '../components/signUp/SignupForm';
 import AddUserInfo from '../components/signUp/AddUserInfo';
 import GoLive from '../components/goLive/goLive';
+import ParentOtp from '../components/parentOtp/parentOtp';
+import LinkMobile from '../components/linkMobile/linkMobile';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -29,6 +31,14 @@ const MainDrawer = createDrawerNavigator(
 
     GoLive: {
       screen: GoLive,
+    },
+
+    ParentOtp: {
+      screen: ParentOtp,
+    },
+
+    LinkMobile: {
+      screen: LinkMobile,
     },
     
     Account: {

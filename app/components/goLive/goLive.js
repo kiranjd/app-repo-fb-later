@@ -25,6 +25,10 @@ export default class GoLive extends Component {
         Orientation.lockToLandscape();
     }
 
+    componentWillUnmount() {
+        Orientation.unlockAllOrientations();
+    }
+
     getFormattedTime(time) {
         this.currentTime = time;
     };

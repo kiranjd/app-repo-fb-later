@@ -1,0 +1,239 @@
+import React, { Component } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    Button,
+    ImageBackground,
+    TouchableOpacity,
+    ActivityIndicator,
+    Alert
+} from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import HeaderBar from '../common/headerBar';
+import { TextField } from 'react-native-material-textfield';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+export default class ParentOtp extends Component {
+    constructor(props) {
+        super(props);
+        this.unsubscribe = null;
+        this.state = {
+            phoneNumber: '',
+            codeSent: false,
+            codeVerified: false,
+            apiKey: '33119aa2-46a6-11e9-8806-0200cd936042',
+            sessionId: '',
+            codeInput: '',
+        };
+    }
+
+    renderPhoneNumberInput() {
+        const { phoneNumber } = this.state;
+
+        return (
+            <View>
+                <View style={{
+                    width: wp('90%'),
+                    flexDirection: 'row',
+                    borderRadius: 100,
+                    borderWidth: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    paddingBottom: 10,
+                    paddingTop: 0,
+                    borderColor: '#AE1EF2',
+                    marginLeft: wp('5%'),
+                    marginTop: hp('5%')
+                }}>
+                    <View style={{ marginRight: 20, marginTop: 10 }}>
+                        <Icon
+                            name='mobile'
+                            size={24}
+                            color='#AE1EF2'
+                        />
+                    </View>
+                    <View style={{
+                        height: hp('5%'),
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginBottom: 5,
+                    }}>
+                        <TextField
+                            label='Mobile Number'
+                            animationDuration={255}
+                            containerStyle={{ width: wp('70%') }}
+                            lineWidth={0}
+                            activeLineWidth={0}
+                            maxLength={13}
+                            value={phoneNumber}
+                            returnKeyType="next"
+                            keyboardType="number-pad"
+                            onChangeText={value => this.setState({ phoneNumber: value })}
+                            onFocus={() => this.setState({ blur: 4 })}
+                            onEndEditing={() => this.setState({ blur: 0 })}
+                        />
+                    </View>
+                </View>
+
+                <TouchableOpacity onPress={this.sendOtp}>
+                    <Text
+                        style={{
+                            fontSize: 15,
+                            width: wp('40%'),
+                            height: 40,
+                            color: 'white',
+                            textAlign: 'center',
+                            backgroundColor: '#AE1EF2',
+                            borderRadius: 20,
+                            padding: '2%',
+                            marginTop: hp('2%'),
+                            marginLeft: wp('30%')
+                        }}
+                    >Send OTP</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+    renderVerificationCodeInput() {
+        const { codeInput } = this.state;
+
+        return (
+                        <View>
+                        <View style={{ 
+                                            width: wp('90%'), 
+                                            flexDirection: 'row', 
+                                            borderRadius: 100, 
+                                            borderWidth: 1,
+                                            justifyContent: 'center', 
+                                            alignItems: 'center', 
+                                            backgroundColor: 'white', 
+                                            paddingBottom: 10, 
+                                            paddingTop: 0,
+                                            borderColor: '#AE1EF2', 
+                                            marginLeft: wp('5%'),
+                                            marginTop: hp('5%')
+                                            }}>
+                                    <View style={{ marginRight: 20, marginTop: 10 }}>
+                                      <Icon
+                                        name='mobile'
+                                        size={24}
+                                        color='#AE1EF2'
+                                      />
+                                    </View>
+                                    <View style={{ 
+                                              height: hp('5%'), 
+                                              justifyContent: 'center', 
+                                              alignItems: 'center', 
+                                              marginBottom: 5,
+                                              }}>
+                                      <TextField
+                                        label='Enter OTP'
+                                        animationDuration={255}
+                                        containerStyle={{ width: wp('70%') }}
+                                        lineWidth={0}
+                                        activeLineWidth={0}
+                                        maxLength={13}
+                                        returnKeyType="next"
+                                        keyboardType="number-pad"
+                                        onChangeText={value => this.setState({ codeInput: value })}
+                                        value={codeInput}
+                                        onFocus={() => this.setState({ blur: 5 })}
+                                        onEndEditing={() => this.setState({ blur: 0 })}
+                                      />
+                                    </View>
+                                  </View>
+                        
+                                <TouchableOpacity onPress={this.confirmCode}>
+                                  <Text 
+                                    style={{
+                                      fontSize:15, 
+                                      width: wp('40%'), 
+                                      height: 40, 
+                                      color:'white', 
+                                      textAlign:'center', 
+                                      backgroundColor:'#AE1EF2', 
+                                      borderRadius: 20,
+                                      padding:'2%',
+                                      marginTop: hp('2%'),
+                                      marginLeft: wp('30%')
+                                    }}
+                                    >Confirm OTP</Text>
+                                </TouchableOpacity>
+                                    </View>
+        );
+    }
+
+    confirmCode = () => {
+        const { codeInput, sessionId, apiKey } = this.state;
+
+        let url = `https://2factor.in/API/V1/${apiKey}/SMS/VERIFY/${sessionId}/${codeInput}`;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.Status == 'Success') {
+                    this.setState({ codeVerified: true });
+                    this.props.navigation.navigate('GoLive');
+                }
+                console.log(responseJson);
+            })
+    }
+
+    sendOtp = () => {
+        const { phoneNumber, apiKey } = this.state;
+        let url = `https://2factor.in/API/V1/${apiKey}/SMS/${phoneNumber}/AUTOGEN`;
+        Alert.alert(url);
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.Status == 'Success') {
+                    this.setState({ codeSent: true, sessionId: responseJson.Details })
+                }
+                console.log(responseJson.Status);
+            })
+    }
+
+    render() {
+        const { codeSent, codeVerified } = this.state;
+        return (
+            <ImageBackground source={require('../Images/background.png')} blurRadius={this.state.blur} style={styles.backgroundContainer}>
+                <HeaderBar navigation={this.props.navigation} />
+                <Text style={{
+                    marginTop: hp('38%'),
+                    fontSize: 35,
+                    color: '#AE1EF2',
+                    marginLeft: wp('45%')
+                }}>
+                    Send OTP
+        </Text>
+                {!codeSent && this.renderPhoneNumberInput()}
+
+                {codeSent && this.renderVerificationCodeInput() }
+
+            </ImageBackground>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    backgroundContainer: {
+        flex: 1,
+        width: wp('100%'),
+        height: hp('100%'),
+    },
+});

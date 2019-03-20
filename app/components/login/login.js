@@ -47,7 +47,7 @@ export default class Login extends Component {
 
   handleSignUp = () => {
     const { email, password } = this.state;
-    var validInputs = true;
+    let validInputs = true;
     if (email == '') {
       Alert.alert('Enter email');
       validInputs = false;
@@ -60,7 +60,7 @@ export default class Login extends Component {
     if (validInputs) {
       firebase
         .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .createUserWithEmailAndPassword(email, password)
         .then(() => Alert.alert('Your account has been created successfully.'))
         .catch(error => {
           console.log(error);
@@ -79,7 +79,7 @@ export default class Login extends Component {
 
   fbPress() {
     handleFbLogin();
-    //this.setState({ overlay: true })
+    this.setState({ overlay: true })
   }
 
   static navigationOptions = {
@@ -262,7 +262,7 @@ export default class Login extends Component {
         {/* signup page - mobile */}
         <TouchableOpacity style={{ 
             marginBottom: hp('5%'), 
-          }} 
+           }} 
           onPress={() => {
           this.unsubscribe();
           this.props.navigation.navigate('SendOTPScreen');

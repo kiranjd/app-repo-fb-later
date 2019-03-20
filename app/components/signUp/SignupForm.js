@@ -7,7 +7,8 @@ import {
     Image,
     ImageBackground,
     TouchableOpacity,
-    ToastAndroid
+    ToastAndroid,
+    KeyboardAvoidingView
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,7 +28,6 @@ export default class UpdateProfile extends Component {
             userType: '',
         }
     }
-
     componentDidMount() {
         var user = firebase.auth().currentUser;
         if (user.displayName !== null) {
@@ -49,23 +49,11 @@ export default class UpdateProfile extends Component {
         user.updateProfile({
             displayName: firstName + ' ' + lastName,
         }).then(function () {
-            //this.props.navigation.navigate('SendOTPScreen');
+            //this.props.navigation.navigate('Home');
             ToastAndroid.show('Updated successfully', ToastAndroid.SHORT);
         }).catch(function (error) {
             alert('error');
         });
-
-        // user.updateEmail('sukshithzone@gmail.com').then(function() {
-        //     console.log('email added');
-        //   }).catch(function(error) {
-        //     // An error happened.
-        //   });
-
-        // user.sendEmailVerification().then(function() {
-        //     console.log('sent mail');
-        //   }).catch(function(error) {
-        //     // An error happened.
-        //   });
     }
 
     render() {
@@ -85,6 +73,7 @@ export default class UpdateProfile extends Component {
                 <Text style={{ fontSize: 35, color: '#AE1EF2', marginLeft: wp('56%'), marginTop: ('60%') }}>
                     Update
                 </Text>
+                <KeyboardAvoidingView keyboardVerticalOffset={195} behavior="padding" >
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
 
                     <View style={{
@@ -136,6 +125,7 @@ export default class UpdateProfile extends Component {
                             />
                         </View>
                     </View>
+                    <TouchableOpacity onPress={() => ToastAndroid.show('Email cannot be updated', ToastAndroid.SHORT)} activeOpacity={0.7}>
                     <View style={{
                         width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
                         justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightgrey', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
@@ -159,10 +149,11 @@ export default class UpdateProfile extends Component {
                                 //onChangeText={value => this.setState({ email: value })}
                                 value={email}
                                 editable={false}
-                                onPress={() => ToastAndroid.show('Updating user details...', ToastAndroid.SHORT)}
+                                
                             />
                         </View>
                     </View>
+                    </TouchableOpacity>
                     <View style={{
                         width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
                         justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
@@ -195,6 +186,7 @@ export default class UpdateProfile extends Component {
                     </View>
 
                 </View>
+           </KeyboardAvoidingView>
             </ImageBackground>
         )
     }

@@ -6,8 +6,9 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { TextField } from 'react-native-material-textfield';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Overlay } from 'react-native-elements';
+import HeaderBar from '../common/headerBar';
 
-export default class Signup extends Component {
+export default class LinkMobile extends Component {
     constructor(props) {
         super(props);
         this.unsubscribe = null;
@@ -65,7 +66,8 @@ export default class Signup extends Component {
                         this.setState({ autoVerify: true })
                         const { verificationId, code } = phoneAuthSnapshot;
                         const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code);
-                        firebase.auth().signInWithCredential(credential);
+                        firebase.auth().currentUser.linkWithCredential(credential);
+
                         this.setState({ message: 'Number has been verified.' });
                         break;
                 }
@@ -82,7 +84,7 @@ export default class Signup extends Component {
                 .then((user) => {
                     this.setState({ message: 'Code Confirmed!', verified: true });
                     this.setState({showOverlay: false});
-                    this.props.navigation.navigate('AddUserInfo');
+                    this.props.navigation.navigate('Home');
                 })
                 .catch(error => this.setState({ message: `Code Confirm Error: ${error.message}` }));
         }
@@ -255,7 +257,7 @@ export default class Signup extends Component {
                 <TouchableOpacity style={styles.buttonInsideContainer}>
                     <Text
                         style={styles.buttonTextInside}
-                        onPress={() => this.props.navigation.navigate('AddUserInfo')}
+                        onPress={() => this.props.navigation.navigate('Home')}
                     >CONTINUE</Text>
                 </TouchableOpacity>
         </Overlay>
@@ -280,7 +282,7 @@ export default class Signup extends Component {
                     Mobile number is verified</Text>
         <TouchableOpacity onPress={() => {
             this.setState({showOverlay: false});
-            this.props.navigation.navigate('AddUserInfo');
+            this.props.navigation.navigate('Home');
         }}>
           <Text 
             style={{
