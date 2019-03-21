@@ -69,12 +69,12 @@ export default class UpdateProfile extends Component {
 
         return (
             <ImageBackground source={require('../Images/background.png')} style={styles.backgroundContainer}>
-                <HeaderBar navigation={this.props.navigation} />
+                <HeaderBar pageName='Update Profile' navigation={this.props.navigation} />
                 <Text style={{ fontSize: 35, color: '#AE1EF2', marginLeft: wp('56%'), marginTop: ('60%') }}>
                     Update
                 </Text>
                 <KeyboardAvoidingView keyboardVerticalOffset={195} behavior="padding" >
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('3%') }}>
 
                     <View style={{
                         width: wp('90%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),

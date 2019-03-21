@@ -8,7 +8,8 @@ import {
     ImageBackground,
     TouchableOpacity,
     ActivityIndicator,
-    Alert
+    Alert,
+    BackHandler
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HeaderBar from '../common/headerBar';
@@ -27,6 +28,13 @@ export default class ParentOtp extends Component {
             sessionId: '',
             codeInput: '',
         };
+    }
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Home');
+            return true;
+          });
     }
 
     renderPhoneNumberInput() {
@@ -212,7 +220,7 @@ export default class ParentOtp extends Component {
         const { codeSent, codeVerified } = this.state;
         return (
             <ImageBackground source={require('../Images/background.png')} blurRadius={this.state.blur} style={styles.backgroundContainer}>
-                <HeaderBar navigation={this.props.navigation} />
+                <HeaderBar pageName='Parent OTP Verification' navigation={this.props.navigation} />
                 <Text style={{
                     marginTop: hp('38%'),
                     fontSize: 35,

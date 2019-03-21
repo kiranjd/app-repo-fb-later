@@ -1,5 +1,6 @@
 import { GoogleSignin } from 'react-native-google-signin';
 import firebase from 'react-native-firebase';
+import { Alert } from 'react-native';
 
 export const hangleGoogleLogIn = () => {
   GoogleSignin.configure({
@@ -17,7 +18,14 @@ export const hangleGoogleLogIn = () => {
         .signInWithCredential(credential)
         .then(user => {
           if(user.additionalUserInfo.isNewUser){
-              this.props.navigation.navigate('LinkMobile');
+            Alert.alert(
+              'Add Mobile Number',
+              'Link your mobile number to continue',
+              [
+                {text: 'OK', onPress: () => this.props.navigation.navigate('LinkMobile')},
+              ],
+              {cancelable: true},
+            );
           } else {
             console.log('old user');
           }

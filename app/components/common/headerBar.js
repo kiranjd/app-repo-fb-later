@@ -12,12 +12,18 @@ export default class HeaderBar extends Component {
     render() {
         return (
             <Header
-                placement="center"
-                // leftComponent={{ icon: 'menu', color: '#fff' }}
+                placement="left"
                 leftComponent={<LeftComponent onPress={() => this.props.navigation.toggleDrawer()} />}
-                centerComponent={{ text: 'CURRENT CLASSES', style: { color: '#fff' } }}
+                centerComponent={{ text: this.props.pageName, style: { color: '#fff', fontWeight: "bold", fontSize: 20, marginBottom: 5, fontFamily: 'sans sarif' } }}
                 rightComponent={<RightComponent onPress={() => this.props.navigation.navigate('Home')}/>}
-                containerStyle={{ backgroundColor: '#3358ff', height: hp('7%'), borderBottomWidth: 0, shadowColor: 'black' }}
+                containerStyle={{ 
+                    backgroundColor: '#3358d1',
+                    height: hp('9%'), 
+                    borderBottomWidth: 0, 
+                    shadowColor: 'black' ,
+                    alignContent: 'center',
+                    
+                 }}
             />
         );
     }

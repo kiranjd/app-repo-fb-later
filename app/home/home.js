@@ -32,7 +32,7 @@ export default class Home extends Component {
                     title="Start Class"
                     raised
                     containerStyle={styles.cardButton}
-                    onPress = {() => this.props.navigation.navigate('LinkMobile')}
+                    onPress = {() => this.props.navigation.navigate('ParentOtp')}
                 />
                 <Button
                     icon={
@@ -75,7 +75,7 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <HeaderBar navigation={this.props.navigation}/>
+                <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation}/>
                 <ScrollView >
 
                     

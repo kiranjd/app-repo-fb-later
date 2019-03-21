@@ -97,18 +97,18 @@ export default class SideMenu extends Component {
                             <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Last Classes') }}>Last Classes</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.iconWithText}>
+                    {/* <View style={styles.iconWithText}>
                         <Icon name='link' type='evilicon' color='white' />
                         <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Profile') }}>Profile</Text>
-                    </View>
+                    </View> */}
                     <View style={styles.iconWithText}>
                         <Icon name='calendar' type='evilicon' color='white' />
                         <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Calendar') }}>Calendar</Text>
                     </View>
-                    <View style={styles.iconWithText}>
+                    {/* <View style={styles.iconWithText}>
                         <Icon name='chart' type='evilicon' color='white' />
                         <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Help') }}>Help</Text>
-                    </View>
+                    </View> */}
                     <View style={styles.iconWithText}>
                         <Icon name='chart' type='evilicon' color='white' />
                         <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('UpdateProfile') }}>Update Profile</Text>

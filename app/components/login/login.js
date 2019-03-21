@@ -49,32 +49,78 @@ export default class Login extends Component {
     const { email, password } = this.state;
     let validInputs = true;
     if (email == '') {
-      Alert.alert('Enter email');
+      alert('Email cannot be empty');
       validInputs = false;
     }
 
     if (password == '') {
+      alert('Password cannot be empty');
       validInputs = false;
     }
 
     if (validInputs) {
       firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => Alert.alert('Your account has been created successfully.'))
-        .catch(error => {
-          console.log(error);
-          firebase
-            .auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .catch(error => this.setState({ errorMessage: error.message }))
-        })
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(error => {
+        if(error.code == 'auth/wrong-password') {
+        alert('Wrong password');
+      } 
+      if(error.code == 'auth/user-not-found') {
+        Alert.alert(
+          'No user found with that email',
+          'Do you want to create an account with same email address?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => {
+               firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password)
+                .then(() => Alert.alert('Your account has been created successfully.'))
+                .catch(error => {
+                  alert(error.message);
+               })
+            }}
+          ],
+          {cancelable: false},
+        );
+      }
+    })
     }
   }
 
   gmailPress() {
     hangleGoogleLogIn();
     this.setState({ overlay: true });
+  }
+
+  forgotPassword = () => {
+    if(this.state.email == '') {
+      Alert.alert('Enter the email address');
+    } else {
+    let email = this.state.email;
+    firebase.auth().sendPasswordResetEmail(
+      this.state.email)
+      .then(function() {
+        Alert.alert(
+          'Email sent',
+          `A reset email is sent to '${email}'. Click on the link to reset your password`,
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')}
+          ],
+          {cancelable: false}, 
+          );
+      })
+      .catch(function(error) {
+        if('auth/user-not-found') {
+          alert(`There is no account associated with ${email}`)
+        }
+      });
+    }
   }
 
   fbPress() {
@@ -213,7 +259,7 @@ export default class Login extends Component {
             >Login</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.forgotPassword}>
             <Text style={{ fontSize: 15, color: 'black', marginLeft: wp('25%'), marginTop: hp('3%') }}>
               Forgot Password?
         </Text>

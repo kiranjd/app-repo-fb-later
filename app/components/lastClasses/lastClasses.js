@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, TextInput, Text, View, Image, TouchableOpacity, Scroll } from 'react-native';
+import { StyleSheet, StatusBar, TextInput, Text, View, Image, TouchableOpacity, Scroll, BackHandler } from 'react-native';
 
 import { Card, ListItem, Button } from 'react-native-elements';
 import { Icon } from 'react-native-elements'
@@ -21,6 +21,10 @@ export default class LastClasses extends Component {
 
     componentDidMount() {
         this.setState({ showButtons: [], show: false });
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Home');
+            return true;
+          });
     }
 
     cardButton() {
@@ -73,7 +77,7 @@ export default class LastClasses extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-             <HeaderBar navigation={this.props.navigation}/>
+             <HeaderBar pageName='Last Classes' navigation={this.props.navigation}/>
                 {
                     users.map((u, i) => {
                         return (

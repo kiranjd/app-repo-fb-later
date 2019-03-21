@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import HeaderBar from '../common/headerBar';
 //
 
 export default class calendars extends Component {
+componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+        this.props.navigation.navigate('Home');
+        return true;
+      });
+}
+
     render() {
         return (
             <View>
-                 <HeaderBar navigation={this.props.navigation}/>
+                 <HeaderBar pageName='Calendar' navigation={this.props.navigation}/>
                 <CalendarList style={styles.container}
                     horizontal={true}
                     markedDates={{
