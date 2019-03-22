@@ -1,19 +1,53 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, TextInput, Text, View, Image, TouchableOpacity, Scroll } from 'react-native';
+import { StyleSheet, StatusBar, TextInput, Text, View, Image, TouchableOpacity, Scroll, Alert } from 'react-native';
 
 import { Card, ListItem, Button, Icon, Header } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
 import HeaderBar from '../components/common/headerBar';
+import firebase from 'react-native-firebase';
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         //debugger;
-        this.showCardButton = this.showCardButton.bind(this);
+        //this.showCardButton = this.showCardButton.bind(this);
         this.state = {
             showCard: null,
+            user: [],
         }
+    }
+
+    fetchData = (user) => {
+        let url = `http://139.59.69.143/api/getClasses.php?uid=${user.uid}`;
+        console.log(url);
+        fetch(url)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log(responseJson);
+        })
+    }
+
+    componentDidMount() {
+        
+        this.setState({isLoading: true});
+        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ 
+                    user: user.toJSON(),
+                });
+                this.fetchData(this.state.user);
+            } else {
+                this.setState({
+                    user: null,
+                });
+                
+            }
+        });
+        
+        
+
+        this.setState({isLoading: false});
     }
 
     cardButton() {
@@ -54,7 +88,7 @@ export default class Home extends Component {
         );
     }
 
-    showCardButton = (i) => {
+    showCardButton(i) {
         console.log(i);
         if (this.state.showCard === i) {
             this.setState({ showCard: null });
@@ -77,8 +111,6 @@ export default class Home extends Component {
             <View style={styles.container}>
                 <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation}/>
                 <ScrollView >
-
-                    
                     {
                         users.map((u, i) => {
                             return (

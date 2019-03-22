@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, Button, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, BackHandler, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import firebase from 'react-native-firebase';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -27,6 +27,11 @@ export default class LinkMobile extends Component {
     }
 
     componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.navigation.navigate('Home');
+            return true;
+          });
+
         this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user: user.toJSON() });
@@ -307,6 +312,7 @@ export default class LinkMobile extends Component {
         const { autoVerify, user, confirmResult, codeSent, verified } = this.state;
         return (
             <ImageBackground source={require('../Images/background.png')} blurRadius={this.state.blur} style={styles.backgroundContainer}>
+            <HeaderBar pageName='Parent OTP Verification' navigation={this.props.navigation} />
                 <Text style={{ 
                     marginTop: hp('38%'), 
                     fontSize: 35, 

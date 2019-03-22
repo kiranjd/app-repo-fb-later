@@ -59,14 +59,25 @@ export default class SideMenu extends Component {
                     displayName: user.displayName,
                     profileUrl: user.photoURL, 
                 });
-                //console.log(user.photoURL);
+                fetch('http://139.59.69.143/api/postUserData.php', {
+                    method: 'POST',
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      "name": user.displayName,
+                      "uuid": user.uid,
+                      "mobile": user.phoneNumber,
+                      "email": user.email,
+                    }),
+                  });
             } else {
                 this.setState({
                     user: null,
                 });
                 
             }
-            //console.log(this.state.user['displayName']);
         });
     }
 
@@ -112,6 +123,10 @@ export default class SideMenu extends Component {
                     <View style={styles.iconWithText}>
                         <Icon name='chart' type='evilicon' color='white' />
                         <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('UpdateProfile') }}>Update Profile</Text>
+                    </View>
+                    <View style={styles.iconWithText}>
+                        <Icon name='credit-card' type='evilicon' color='white' />
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('LinkMobile') }}>Link Mobile</Text>
                     </View>
                     <View style={styles.iconWithText}>
                         <Icon name='close' type='evilicon' color='white' />

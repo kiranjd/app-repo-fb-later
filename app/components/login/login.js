@@ -79,8 +79,24 @@ export default class Login extends Component {
             {text: 'OK', onPress: () => {
                firebase
                 .auth()
-                .createUserWithEmailAndPassword(email, password)
-                .then(() => Alert.alert('Your account has been created successfully.'))
+                 .createUserWithEmailAndPassword(email, password)
+                 .then((user) => {
+                   //debugger;
+                   Alert.alert('Your account has been created successfully.');
+                   fetch('http://139.59.69.143/api/postUserData.php', {
+                     method: 'POST',
+                     headers: {
+                       Accept: 'application/json',
+                       'Content-Type': 'application/json',
+                     },
+                     body: JSON.stringify({
+                       "name": user.displayName,
+                       "uuid": user.uid,
+                       "mobile": user.phoneNumber,
+                       "email": user.email,
+                     }),
+                   });
+              })
                 .catch(error => {
                   alert(error.message);
                })
@@ -112,7 +128,7 @@ export default class Login extends Component {
           [
             {text: 'OK', onPress: () => console.log('OK Pressed')}
           ],
-          {cancelable: false}, 
+          {cancelable: true}, 
           );
       })
       .catch(function(error) {

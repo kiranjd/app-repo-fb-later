@@ -17,14 +17,30 @@ export const hangleGoogleLogIn = () => {
       firebase.auth()
         .signInWithCredential(credential)
         .then(user => {
-          if(user.additionalUserInfo.isNewUser){
+          //let userJson = user.toJSON();
+          //debugger;
+         if(user.additionalUserInfo.isNewUser){
+          fetch('http://139.59.69.143/api/postUserData.php', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                "name": user.user.displayName,
+                "uuid": user.user.uid,
+                "mobile": user.user.phoneNumber,
+                "email": user.user.email,
+              }),
+            });
+            alert('api');
             Alert.alert(
               'Add Mobile Number',
-              'Link your mobile number to continue',
+              'Link your mobile number from side menu',
               [
-                {text: 'OK', onPress: () => this.props.navigation.navigate('LinkMobile')},
+                {text: 'OK'},
               ],
-              {cancelable: true},
+              {cancelable: false},
             );
           } else {
             console.log('old user');
