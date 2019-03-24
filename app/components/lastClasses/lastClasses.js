@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, TextInput, Text, View, Image, TouchableOpacity, Scroll, BackHandler } from 'react-native';
+import { StyleSheet, StatusBar, TextInput, ActivityIndicator, Text, WebView, Linking, FlatList, View, Image, TouchableOpacity, Scroll, BackHandler } from 'react-native';
 
 import { Card, ListItem, Button } from 'react-native-elements';
 import { Icon } from 'react-native-elements'
@@ -8,115 +8,107 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import { Thumbnail } from 'react-native-thumbnail-video';
 import HeaderBar from '../common/headerBar';
+import firebase from 'react-native-firebase';
 
 export default class LastClasses extends Component {
     constructor(props) {
         super(props);
-        this.showCardButton = this.showCardButton.bind(this);
         this.state = {
             showButton: [],
             show: null,
+            user: [],
+            dataSource: [],
+            isLoading: true,
         }
+    }
+
+    componentWillMount() {
+        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({
+                    user: user.toJSON(),
+                });
+            } else {
+                this.setState({
+                    user: null,
+                });
+            }
+        });
     }
 
     componentDidMount() {
         this.setState({ showButtons: [], show: false });
+
+        let userLocal = this.state.user;
+        let url = `http://139.59.69.143/api/getLastClasses.php?uid=${userLocal.uid}`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                const dataSource = responseJson;
+                this.setState({
+                    dataSource,
+                    isLoading: false
+                });
+            })
+
         BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('Home');
             return true;
-          });
-    }
-
-    cardButton() {
-        return (
-            <View style={styles.cardButtonsContainer}>
-                <Button
-                    icon={
-                        <Icon
-                            name='check'
-                            type='evilicon'
-                        />
-                    }
-                    type="outline"
-                    iconRight
-                    title="Start Class"
-                    raised
-                    containerStyle={styles.cardButton}
-                />
-                <Button
-                    icon={
-                        <Icon
-                            name='play'
-                            type='evilicon'
-                        />
-                    }
-                    on
-                    raised
-                    type="outline"
-                    iconRight
-                    title="Go Live!"
-                    style={styles.cardButton}
-                    containerStyle={styles.cardButton}
-                />
-            </View>
-        );
-    }
-
-    showCardButton = () => {
-        // console.log(i);
-        // this.setState({showButton: {i: true}});
-        if (!this.state.show) {
-            this.setState({ show: true });
-        }
-        else {
-            this.setState({ show: false });
-        }
-
+        });
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <HeaderBar pageName='Last Classes' navigation={this.props.navigation} />
+                    <ActivityIndicator size="large" color="#000" style={{ marginTop: hp('40%') }} />
+                </View>
+            );
+        }
+
         return (
             <ScrollView style={styles.container}>
-             <HeaderBar pageName='Last Classes' navigation={this.props.navigation}/>
+                <HeaderBar pageName='Last Classes' navigation={this.props.navigation} />
                 {
-                    users.map((u, i) => {
-                        return (
-                            <TouchableOpacity>
-                                <Card key={i} containerStyle={styles.cardViewContainer} >
-                                <View style={styles.cardViewInnerContainer}>
-                                    <View style={styles.cardTextContainer}>
-                                    <View style={styles.cardDetails}> 
-                                        <Text style={styles.cardItemText}> Student Name </Text>
-                                        <Text style={styles.cardItemTextValue}> {u.studentName} </Text>
-                                    </View>
-                                    <View style={styles.cardDetails}> 
-                                        <Text style={styles.cardItemText}> Date </Text>
-                                        <Text style={styles.cardItemTextValue}> {u.date} </Text>
-                                    </View>
-                                    <View style={styles.cardDetails}> 
-                                        <Text style={styles.cardItemText}> Subject </Text>
-                                        <Text style={styles.cardItemTextValue}> {u.subject} </Text>
-                                    </View>
-                                    <View style={styles.cardDetails}> 
-                                        <Text style={styles.cardItemText}> Start Time </Text>
-                                        <Text style={styles.cardItemTextValue}> {u.startTime} </Text>
-                                    </View>
-                                    <View style={styles.cardDetails}> 
-                                        <Text style={styles.cardItemText}> End Time </Text>
-                                        <Text style={styles.cardItemTextValue}> {u.endTime} </Text>
-                                    </View>
-                                            
-                                        
-                                    </View>
-                    
-                                    <View style={styles.thumbnailContainer}>
-                                        <Thumbnail containerStyle={styles.thumbnailStyle} imageWidth={wp('30%')} imageHeight={hp('17%')} url="https://www.youtube.com/watch?v=BZLILkaiXXM" />
-                                    </View>
-                                    </View>
-                                </Card>
-                            </TouchableOpacity>
-                        );
-                    })
+                    <FlatList
+                        data={this.state.dataSource}
+                        extraData={this.state.showCard}
+                        renderItem={({ item, index }) =>
+                            <View>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('showVideo', {videoUrl: item.videoUrl})}>            
+                                    <Card containerStyle={styles.cardViewContainer} >
+                                        <View style={styles.cardViewInnerContainer}>
+                                            <View style={styles.cardTextContainer}>
+                                                <View style={styles.cardDetails}>
+                                                    <Text style={styles.cardItemText}> Student Name </Text>
+                                                    <Text style={styles.cardItemTextValue}> {item.studentName} </Text>
+                                                </View>
+                                                <View style={styles.cardDetails}>
+                                                    <Text style={styles.cardItemText}> Date </Text>
+                                                    <Text style={styles.cardItemTextValue}> {item.date} </Text>
+                                                </View>
+                                                <View style={styles.cardDetails}>
+                                                    <Text style={styles.cardItemText}> Subject </Text>
+                                                    <Text style={styles.cardItemTextValue}> {item.subject} </Text>
+                                                </View>
+                                                <View style={styles.cardDetails}>
+                                                    <Text style={styles.cardItemText}> Start Time </Text>
+                                                    <Text style={styles.cardItemTextValue}> {item.startTime} </Text>
+                                                </View>
+                                                <View style={styles.cardDetails}>
+                                                    <Text style={styles.cardItemText}> Duration of class </Text>
+                                                    <Text style={styles.cardItemTextValue}> {item.duration} minutes</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </Card>
+                                </TouchableOpacity>
+                            </View>
+                        }
+                        keyExtractor={item => item.ID}
+                    />
                 }
             </ScrollView>
         );
@@ -145,7 +137,7 @@ const styles = StyleSheet.create({
 
     cardTextContainer: {
         marginRight: wp('5%'),
-        width:'60%',
+        width: '100%',
     },
 
     cardItemText: {
@@ -159,15 +151,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         margin: hp('0.25%'),
         color: '#f7f2b9',
-        width:'50%',
+        width: '50%',
     },
 
     thumbnailContainer: {
-       alignContent: 'flex-end',
+        alignContent: 'flex-end',
     },
 
     thumbnailStyle: {
-        
+
     },
 });
 
@@ -176,7 +168,7 @@ const users = [
     {
         studentName: 'Brynn',
         date: '07/02/2019',
-        subject:- 'Mathamatics',
+        subject: - 'Mathamatics',
         startTime: '11:15:00',
         endTime: '12:00:00'
     },

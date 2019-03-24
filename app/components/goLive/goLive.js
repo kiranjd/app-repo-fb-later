@@ -18,7 +18,10 @@ export default class GoLive extends Component {
             color: 'red',
             stopwatchStart: false,
             stopwatchReset: false,
-        }
+            classID: this.props.navigation.getParam('classID', 'default'),
+            videoID: this.makeid(7)
+        };
+        console.log(this.state.videoID);
     }
 
     componentDidMount() {
@@ -26,8 +29,28 @@ export default class GoLive extends Component {
     }
 
     componentWillUnmount() {
-        Orientation.unlockAllOrientations();
+        Orientation.lockToPortrait();
+        let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=3&videoID=${this.state.videoID}`
+        fetch(url, { method: 'GET' })
+            .then((response) => {
+                if (response.status == 200) {
+                    this.resetStopwatch();
+                    this.vb.stop();
+                    ToastAndroid.show('Publish Ended', ToastAndroid.LONG);
+                    this.props.navigation.navigate('Home');
+                }
+            })
     }
+
+    makeid(length) {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      
+        for (var i = 0; i < length; i++)
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+      
+        return text;
+    };
 
     getFormattedTime(time) {
         this.currentTime = time;
@@ -87,19 +110,34 @@ export default class GoLive extends Component {
                                             isPublish: false,
                                             color: 'red'
                                         });
-                                        this.resetStopwatch();
-                                        this.vb.stop();
-                                        ToastAndroid.show('Publish Ended', ToastAndroid.LONG);
-                                        this.props.navigation.navigate('Home')
+                                        let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=3&videoID=${this.state.videoID}`
+                                        fetch(url, { method: 'GET' })
+                                            .then((response) => {
+                                                if (response.status == 200) {
+                                                    this.resetStopwatch();
+                                                    this.vb.stop();
+                                                    ToastAndroid.show('Publish Ended', ToastAndroid.LONG);
+                                                    this.props.navigation.navigate('Home');
+                                                }
+                                            })
+                                        
                                     } else {
                                         this.setState({
                                             publishBtnTitle: 'Stop Publish',
                                             isPublish: true,
                                             color: 'green'
                                         });
-                                        this.toggleStopwatch();
-                                        this.vb.start();
-                                        ToastAndroid.show('Publish Started', ToastAndroid.SHORT);
+                                       
+                                        let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=4`
+                                        fetch(url, { method: 'GET' })
+                                            .then((response) => {
+                                                if (response.status == 200) {
+                                                    this.toggleStopwatch();
+                                                    this.vb.start();
+                                                    ToastAndroid.show('Publish Started', ToastAndroid.SHORT);
+                                                }
+                                            })
+
                                     }
                                 }}
                                 //title={this.state.publishBtnTitle}
@@ -110,6 +148,7 @@ export default class GoLive extends Component {
                             <Button
                                 onPress={() => {
                                     this.vb.switchCamera();
+                                   // alert(this.getFormattedTime);
                                 }}
                                 icon={
                                     <Icon
@@ -133,7 +172,7 @@ export default class GoLive extends Component {
                 <NodeCameraView
                     style={{ height: '100%' }}
                     ref={(vb) => { this.vb = vb }}
-                    outputUrl={"rtmp://testapi.flaplive.com/live/ath_svjk_2"}
+                    outputUrl={"rtmp://139.59.86.32/live/"+this.state.videoID}
                     camera={{ cameraId: 0, cameraFrontMirror: true }}
                     audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
                     video={{ preset: 12, bitrate: 400000, profile: 1, fps: 15, videoFrontMirror: false }}

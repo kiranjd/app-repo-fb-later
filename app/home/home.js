@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, TextInput, Text, View, Image, TouchableOpacity, Scroll, Alert } from 'react-native';
+import { StyleSheet, StatusBar, TextInput, FlatList, Text, View, Image, ActivityIndicator, TouchableOpacity, Scroll, Alert } from 'react-native';
 
 import { Card, ListItem, Button, Icon, Header } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -15,42 +15,45 @@ export default class Home extends Component {
         this.state = {
             showCard: null,
             user: [],
+            dataSource: [],
+            isLoading: true,
         }
     }
 
-    fetchData = (user) => {
-        let url = `http://139.59.69.143/api/getClasses.php?uid=${user.uid}`;
-        console.log(url);
-        fetch(url)
-        .then((response) => response.json())
-        .then((responseJson) => {
-            console.log(responseJson);
-        })
-    }
-
-    componentDidMount() {
-        
-        this.setState({isLoading: true});
+    componentWillMount() {
         this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.setState({ 
+                this.setState({
                     user: user.toJSON(),
                 });
-                this.fetchData(this.state.user);
             } else {
                 this.setState({
                     user: null,
                 });
-                
             }
         });
-        
-        
-
-        this.setState({isLoading: false});
     }
 
-    cardButton() {
+    componentDidMount() {
+        let userLocal = this.state.user;
+        let url = `http://139.59.69.143/api/getClasses.php?uid=${userLocal.uid}`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                const dataSource = responseJson;
+                this.setState({
+                    dataSource,
+                    isLoading: false
+                });
+            })
+    }
+
+    componentWillUnmount() {
+        if (this.unsubscribe) this.unsubscribe();
+    }
+
+    cardButton(classID, parentNumber) {
         return (
 
             <View style={styles.cardButtonsContainer}>
@@ -66,7 +69,11 @@ export default class Home extends Component {
                     title="Start Class"
                     raised
                     containerStyle={styles.cardButton}
-                    onPress = {() => this.props.navigation.navigate('ParentOtp')}
+                    onPress={() => this.props.navigation.navigate('ParentOtp', {
+                        classID: classID,
+                        parentNumber: parentNumber
+                    })}
+                   // onPress={() => alert(classID)}
                 />
                 <Button
                     icon={
@@ -82,51 +89,58 @@ export default class Home extends Component {
                     title="Go Live!"
                     style={styles.cardButton}
                     containerStyle={styles.cardButton}
-                    onPress = {() =>  this.props.navigation.navigate('GoLive')}
+                    onPress={() => this.props.navigation.navigate('GoLive')}
                 />
             </View>
         );
     }
 
-    showCardButton(i) {
+    showCardButton = (i) => {
         console.log(i);
-        if (this.state.showCard === i) {
+        if (this.state.showCard == i) {
             this.setState({ showCard: null });
-
         }
-
         else {
             this.setState({ showCard: i });
-
         }
+        //alert(this.state.showCard == i)
+       // alert('state:'+this.state.showCard+',index:'+i);
     }
-
-    toggleDrawer = () => {
-        this.props.navigation.toggleDrawer();
-        ////
-    }
-
+    
     render() {
+        console.log(this.state.dataSource);
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.container}>
+                    <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
+                    <ActivityIndicator size="large" color="#fff" style={{ marginTop: hp('40%') }} />
+                </View>
+            );
+        }
         return (
             <View style={styles.container}>
-                <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation}/>
+                <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
                 <ScrollView >
                     {
-                        users.map((u, i) => {
-                            return (
-                                // <TouchableOpacity onPress={ () => this.props.navigation.toggleDrawer()}>
-                                <TouchableOpacity key={i} onPress={() => this.showCardButton(i)}>
-                                    <Card  containerStyle={styles.cardViewContainer} >
-                                        <View>
-                                            <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Student Name: </Text>{u.studentName}</Text>
-                                            <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Subject: </Text>{u.subject}</Text>
-                                            <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Time of class: </Text>{u.timeOfClass}</Text>
-                                        </View>
-                                        <View>{(this.state.showCard === i) && this.cardButton()}</View>                                        
-                                    </Card>
-                                </TouchableOpacity>
-                            );
-                        })
+                        <FlatList
+                            data={this.state.dataSource}
+                            extraData={this.state.showCard}
+                            renderItem={({ item, index }) =>
+                                <View>
+                                    <TouchableOpacity onPress={() => this.showCardButton(index)}>
+                                        <Card containerStyle={styles.cardViewContainer} >
+                                            <View>
+                                                <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Student Name: </Text>{item.studentName}</Text>
+                                                <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Subject: </Text>{item.subject}</Text>
+                                                <Text style={styles.cardItemText}><Text style={{ color: 'black' }}>Date and time of class: </Text>{item.date} at {item.time}</Text>
+                                            </View>
+                                            <View>{(this.state.showCard == index) && this.cardButton(item.ID, item.ParentMobileNumber)}</View>
+                                        </Card>
+                                    </TouchableOpacity>
+                                </View>
+                            }
+                           keyExtractor={item => item.ID}
+                        />
                     }
                 </ScrollView>
             </View>
@@ -189,40 +203,3 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     }
 });
-
-const users = [
-    {
-        studentName: 'Brynn',
-        subject: 'Mathamatics',
-        timeOfClass: '07/02/2019'
-    },
-    {
-        studentName: 'Raaju',
-        subject: 'Physics',
-        timeOfClass: '28/02/2019'
-    }, {
-        studentName: 'Tejas',
-        subject: 'Chemistry',
-        timeOfClass: '24/02/2019'
-    }, {
-        studentName: 'Sunil',
-        subject: 'Coder',
-        timeOfClass: '11/02/2019'
-    }, {
-        studentName: 'Sunil',
-        subject: 'Coder',
-        timeOfClass: '11/02/2019'
-    }, {
-        studentName: 'Sunil',
-        subject: 'Coder',
-        timeOfClass: '11/02/2019'
-    }, {
-        studentName: 'Sunil',
-        subject: 'Coder',
-        timeOfClass: '11/02/2019'
-    }, {
-        studentName: 'Sunil',
-        subject: 'Coder',
-        timeOfClass: '11/02/2019'
-    },
-]

@@ -18,6 +18,7 @@ import AddUserInfo from '../components/signUp/AddUserInfo';
 import GoLive from '../components/goLive/goLive';
 import ParentOtp from '../components/parentOtp/parentOtp';
 import LinkMobile from '../components/linkMobile/linkMobile';
+import WebViewForVideo from '../components/showVideo';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -37,16 +38,14 @@ const MainDrawer = createDrawerNavigator(
       screen: ParentOtp,
     },
 
+    showVideo: {
+      screen: WebViewForVideo
+    },
+
     LinkMobile: {
       screen: LinkMobile,
     },
-    
-    Account: {
-      screen: Home,
-    },
-    Notification: {
-      screen: Home,
-    },
+
     "Last Classes": {
       screen: LastClasses,
     },

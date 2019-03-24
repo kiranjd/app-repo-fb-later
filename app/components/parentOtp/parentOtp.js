@@ -21,12 +21,13 @@ export default class ParentOtp extends Component {
         super(props);
         this.unsubscribe = null;
         this.state = {
-            phoneNumber: '',
+            phoneNumber: this.props.navigation.getParam('parentNumber', ''),
             codeSent: false,
             codeVerified: false,
             apiKey: '33119aa2-46a6-11e9-8806-0200cd936042',
             sessionId: '',
             codeInput: '',
+            classID: this.props.navigation.getParam('classID', 'default')
         };
     }
 
@@ -87,6 +88,7 @@ export default class ParentOtp extends Component {
                 </View>
 
                 <TouchableOpacity onPress={this.sendOtp}>
+                {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('GoLive', {classID: this.state.classID})}> */}
                     <Text
                         style={{
                             fontSize: 15,
@@ -190,7 +192,19 @@ export default class ParentOtp extends Component {
             .then((responseJson) => {
                 if (responseJson.Status == 'Success') {
                     this.setState({ codeVerified: true });
-                    this.props.navigation.navigate('GoLive');
+                    let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=1`
+                    fetch(url, {method: 'GET'})
+                    .then((response) => {
+                        if(response.status) {
+                            Alert.alert(
+                                'Parent OTP verified', 
+                                'Press continue to \'Go Live\'', 
+                                [
+                                    {text: 'Continue', onPress: () => this.props.navigation.navigate('GoLive', {classID: this.state.classID})}
+                                ]
+                                )
+                        }
+                    })
                 }
                 console.log(responseJson);
             })
@@ -199,6 +213,7 @@ export default class ParentOtp extends Component {
     sendOtp = () => {
         const { phoneNumber, apiKey } = this.state;
         let url = `https://2factor.in/API/V1/${apiKey}/SMS/${phoneNumber}/AUTOGEN`;
+        //
         Alert.alert(url);
         fetch(url, {
             method: 'GET',
