@@ -75,7 +75,7 @@ export default class Home extends Component {
                     })}
                    // onPress={() => alert(classID)}
                 />
-                <Button
+                {/* <Button
                     icon={
                         <Icon
                             name='play'
@@ -90,7 +90,7 @@ export default class Home extends Component {
                     style={styles.cardButton}
                     containerStyle={styles.cardButton}
                     onPress={() => this.props.navigation.navigate('GoLive')}
-                />
+                /> */}
             </View>
         );
     }
@@ -108,7 +108,14 @@ export default class Home extends Component {
     }
     
     render() {
-        console.log(this.state.dataSource);
+        if(!this.state.isLoading && this.state.dataSource.length == 0) {
+            return (
+                <View style={styles.container}>
+                <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
+                <Text style={{textAlign: "center", marginTop: hp('40%'), fontSize: wp('8%')}}>No classes alloted</Text>
+            </View>
+            );
+        }
         if (this.state.isLoading) {
             return (
                 <View style={styles.container}>
@@ -157,7 +164,8 @@ const styles = StyleSheet.create({
     cardButtonsContainer: {
         flexDirection: 'row',
         alignContent: 'center',
-        marginHorizontal: wp('13%'),
+        justifyContent: 'center',
+        // marginHorizontal: wp('13%'),
     },
 
     cardButton: {

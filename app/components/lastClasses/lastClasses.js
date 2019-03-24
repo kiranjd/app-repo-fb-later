@@ -59,6 +59,15 @@ export default class LastClasses extends Component {
     }
 
     render() {
+        if(!this.state.isLoading && this.state.dataSource.length == 0) {
+            return (
+                <View style={styles.container}>
+                <HeaderBar pageName='Last Classes' navigation={this.props.navigation} />
+                <Text style={{textAlign: "center", marginTop: hp('40%'), fontSize: wp('8%')}}>No classes taken yet or not authorised to view</Text>
+            </View>
+            );
+        }
+
         if (this.state.isLoading) {
             return (
                 <View style={styles.container}>

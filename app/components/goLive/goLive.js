@@ -120,7 +120,6 @@ export default class GoLive extends Component {
                                                     this.props.navigation.navigate('Home');
                                                 }
                                             })
-                                        
                                     } else {
                                         this.setState({
                                             publishBtnTitle: 'Stop Publish',
@@ -128,7 +127,7 @@ export default class GoLive extends Component {
                                             color: 'green'
                                         });
                                        
-                                        let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=4`
+                                        let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=4&videoID=${this.state.videoID}`
                                         fetch(url, { method: 'GET' })
                                             .then((response) => {
                                                 if (response.status == 200) {

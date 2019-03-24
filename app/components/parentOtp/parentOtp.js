@@ -213,8 +213,8 @@ export default class ParentOtp extends Component {
     sendOtp = () => {
         const { phoneNumber, apiKey } = this.state;
         let url = `https://2factor.in/API/V1/${apiKey}/SMS/${phoneNumber}/AUTOGEN`;
-        //
-        Alert.alert(url);
+        
+        //Alert.alert(url);
         fetch(url, {
             method: 'GET',
             headers: {
