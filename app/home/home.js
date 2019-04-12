@@ -75,22 +75,6 @@ export default class Home extends Component {
                     })}
                    // onPress={() => alert(classID)}
                 />
-                {/* <Button
-                    icon={
-                        <Icon
-                            name='play'
-                            type='evilicon'
-                        />
-                    }
-                    on
-                    raised
-                    type="outline"
-                    iconRight
-                    title="Go Live!"
-                    style={styles.cardButton}
-                    containerStyle={styles.cardButton}
-                    onPress={() => this.props.navigation.navigate('GoLive')}
-                /> */}
             </View>
         );
     }
@@ -127,11 +111,26 @@ export default class Home extends Component {
         return (
             <View style={styles.container}>
                 <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
-                <ScrollView >
-                    {
+                {/* <ScrollView >
+                    { */}
                         <FlatList
                             data={this.state.dataSource}
                             extraData={this.state.showCard}
+                            onRefresh={() => {
+                                let userLocal = this.state.user;
+        let url = `http://139.59.69.143/api/getClasses.php?uid=${userLocal.uid}`;
+
+        fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                const dataSource = responseJson;
+                this.setState({
+                    dataSource,
+                    isLoading: false
+                });
+            })
+                            }}
+      refreshing={this.state.isLoading}
                             renderItem={({ item, index }) =>
                                 <View>
                                     <TouchableOpacity onPress={() => this.showCardButton(index)}>
@@ -148,8 +147,8 @@ export default class Home extends Component {
                             }
                            keyExtractor={item => item.ID}
                         />
-                    }
-                </ScrollView>
+                    {/* }
+                </ScrollView> */}
             </View>
         );
     }

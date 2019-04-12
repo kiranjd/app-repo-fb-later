@@ -7,7 +7,8 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  BackHandler
 } from 'react-native';
 
 import SplashScreen from 'react-native-splash-screen';
@@ -42,6 +43,13 @@ export default class Login extends Component {
         });
         this.props.navigation.navigate('Login');
       }
+    });
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      this.setState({overlay: false});
+      return true;
     });
   }
 

@@ -2,7 +2,7 @@ package com.firstapp;
 
 import android.app.Application;
 
-import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactApplication;
 import com.github.yamill.orientation.OrientationPackage;
 import cn.nodemedia.react_native_nodemediaclient.NodeMediaReactPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;

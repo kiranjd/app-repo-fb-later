@@ -5,7 +5,7 @@
 </resources> -->
 
 <resources>
-    <string name="app_name">SVJK</string>
-        <string name="facebook_app_id">359763954753885</string>
+    <string name="app_name">Near Coach</string>
+    <string name="facebook_app_id">359763954753885</string>
     <string name="fb_login_protocol_scheme">359763954753885</string>
 </resources>

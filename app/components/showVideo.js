@@ -16,7 +16,8 @@ export default class WebViewForVideo extends Component {
     }
   render() {
      // alert(this.props.navigation.getParam('videoUrl', 'default'));
-    const uri = this.props.navigation.getParam('videoUrl', 'default');
+    let uri = this.props.navigation.getParam('videoUrl', 'default');
+    uri = 'http://139.59.69.143/playVideo.php?videoUrl=' + uri;
     return (        
       <WebView
         ref={(ref) => { this.webview = ref; }}

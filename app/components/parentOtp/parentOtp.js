@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Alert,
-    BackHandler
+    BackHandler,
+    KeyboardAvoidingView
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import HeaderBar from '../common/headerBar';
@@ -236,6 +237,7 @@ export default class ParentOtp extends Component {
         return (
             <ImageBackground source={require('../Images/background.png')} blurRadius={this.state.blur} style={styles.backgroundContainer}>
                 <HeaderBar pageName='Parent OTP Verification' navigation={this.props.navigation} />
+                <KeyboardAvoidingView keyboardVerticalOffset={70} behavior="position" >
                 <Text style={{
                     marginTop: hp('38%'),
                     fontSize: 35,
@@ -247,7 +249,7 @@ export default class ParentOtp extends Component {
                 {!codeSent && this.renderPhoneNumberInput()}
 
                 {codeSent && this.renderVerificationCodeInput() }
-
+</KeyboardAvoidingView>
             </ImageBackground>
         );
     }

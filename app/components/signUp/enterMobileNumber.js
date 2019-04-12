@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, Button, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, ImageBackground, TouchableOpacity, KeyboardAvoidingView ,ActivityIndicator } from 'react-native';
 
 import firebase from 'react-native-firebase';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -161,6 +161,7 @@ export default class Signup extends Component {
         const { phoneNumber } = this.state;
 
         return (
+            // <KeyboardAvoidingView keyboardVerticalOffset={50} behavior="position" >
             <View>
 <View style={{ 
                     width: wp('90%'), 
@@ -223,6 +224,7 @@ export default class Signup extends Component {
             >Send OTP</Text>
         </TouchableOpacity>
             </View>
+            // </KeyboardAvoidingView>
         );
     }
 
@@ -305,6 +307,7 @@ export default class Signup extends Component {
         const { autoVerify, user, confirmResult, codeSent, verified } = this.state;
         return (
             <ImageBackground source={require('../Images/background.png')} blurRadius={this.state.blur} style={styles.backgroundContainer}>
+             <KeyboardAvoidingView keyboardVerticalOffset={90} behavior="position" >
                 <Text style={{ 
                     marginTop: hp('38%'), 
                     fontSize: 35, 
@@ -323,6 +326,7 @@ export default class Signup extends Component {
                 {autoVerify && this.autoVerify()}
 
                 {verified && this.verified()}
+                </KeyboardAvoidingView>
             </ImageBackground>
         );
     }

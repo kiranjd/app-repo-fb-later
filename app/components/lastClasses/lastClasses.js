@@ -59,12 +59,12 @@ export default class LastClasses extends Component {
     }
 
     render() {
-        if(!this.state.isLoading && this.state.dataSource.length == 0) {
+        if (!this.state.isLoading && this.state.dataSource.length == 0) {
             return (
                 <View style={styles.container}>
-                <HeaderBar pageName='Last Classes' navigation={this.props.navigation} />
-                <Text style={{textAlign: "center", marginTop: hp('40%'), fontSize: wp('8%')}}>No classes taken yet or not authorised to view</Text>
-            </View>
+                    <HeaderBar pageName='Last Classes' navigation={this.props.navigation} />
+                    <Text style={{ textAlign: "center", marginTop: hp('40%'), fontSize: wp('8%') }}>No classes taken yet or not authorised to view</Text>
+                </View>
             );
         }
 
@@ -78,15 +78,31 @@ export default class LastClasses extends Component {
         }
 
         return (
-            <ScrollView style={styles.container}>
+            // <ScrollView style={styles.container}>
+            <View>
                 <HeaderBar pageName='Last Classes' navigation={this.props.navigation} />
                 {
                     <FlatList
                         data={this.state.dataSource}
                         extraData={this.state.showCard}
+                        onRefresh={() => {
+                            let userLocal = this.state.user;
+        let url = `http://139.59.69.143/api/getLastClasses.php?uid=${userLocal.uid}`;
+                            fetch(url)
+                                .then((response) => response.json())
+                                .then((responseJson) => {
+                                    const dataSource = responseJson;
+                                    this.setState({
+                                        dataSource,
+                                        isLoading: false
+                                    });
+                                })
+                        }}
+                        //this.props.navigation.navigate('showVideo', { videoUrl: item.videoUrl }
+                        refreshing={this.state.isLoading}
                         renderItem={({ item, index }) =>
                             <View>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('showVideo', {videoUrl: item.videoUrl})}>            
+                                <TouchableOpacity onPress={() => Linking.openURL('http://139.59.69.143/playVideo.php?videoUrl=' + item.videoUrl)}>
                                     <Card containerStyle={styles.cardViewContainer} >
                                         <View style={styles.cardViewInnerContainer}>
                                             <View style={styles.cardTextContainer}>
@@ -119,7 +135,8 @@ export default class LastClasses extends Component {
                         keyExtractor={item => item.ID}
                     />
                 }
-            </ScrollView>
+            </View>
+            // </ScrollView>
         );
     }
 }

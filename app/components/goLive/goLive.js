@@ -97,7 +97,7 @@ export default class GoLive extends Component {
                             options={options}
                             getTime={this.getFormattedTime} />
                     </View>}
-
+                    {/* Change height to hp(). Whatever the appropriate percentage of hp required. */}
                     {!this.state.isPublish && <View style={{height: 37}}></View>}
                     <View style={{ flexDirection: 'row', top: '35%', left: '80%' }}>
                         <TouchableOpacity>
@@ -136,10 +136,8 @@ export default class GoLive extends Component {
                                                     ToastAndroid.show('Publish Started', ToastAndroid.SHORT);
                                                 }
                                             })
-
                                     }
                                 }}
-                                //title={this.state.publishBtnTitle}
                                 color="#841584"
                             />
                         </TouchableOpacity>
