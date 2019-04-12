@@ -5,6 +5,8 @@ import { heightPercentageToDP } from 'react-native-responsive-screen';
 import HeaderBar from '../common/headerBar';
 import firebase from 'react-native-firebase';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Overlay, Card } from 'react-native-elements';
+import { FlatList } from 'react-native-gesture-handler';
 //
 
 export default class calendars extends Component {
@@ -13,7 +15,8 @@ export default class calendars extends Component {
     this.state = {
       dates: null, 
       user: [],
-      isLoading: true
+      isLoading: true,
+      showOverlay: true
     }
   }
 
@@ -69,11 +72,54 @@ export default class calendars extends Component {
       <View style={styles.container}>
         <HeaderBar pageName = 'Alloted Classes' navigation = {this.props.navigation} />
         <CalendarList style={styles.calendarContainer}
-          horizontal={true}
+          //horizontal={true}
           pastScrollRange={1}
           futureScrollRange={1}
           markedDates={this.state.dates}
+          onDayPress={(day)=>{console.log('day pressed', day)}}
         />
+        <Overlay 
+          isVisible = {this.state.showOverlay}
+          style = {styles.overlayStyle}
+          height = {hp('70%')}
+          width = { wp('90%') }
+        >
+          <TouchableOpacity onPress = { () => this.
+          setState({showOverlay: false})}>
+            <FlatList
+              data={[
+                {key: '6am', name: 'Ashwin Kuthrapalli'},
+                {key: '7am', name: 'Ramraj Rao'},
+                {key: '8am'},
+                {key: '9am', name: 'Ramesh NV'},
+                {key: '10am'},
+                {key: '11am'},
+                {key: '12pm', name: 'Ramesh NV'},
+                {key: '1pm'},
+                {key: '2pm'},
+                {key: '3pm', name: 'Ramraj Rao'},
+                {key: '4pm'},
+                {key: '5pm'}, 
+                {key: '6pm'},
+                {key: '7pm', name: 'Ashwin Kuthrapalli'},
+                {key: '8pm'},
+                {key: '9pm'},
+              ]}
+              renderItem={({item}) => 
+              <Card>
+              <View style={{flexDirection: 'row', margin: 0, alignItems: 'center'}}>
+                <View style = {{ width: wp('20%')}}>
+                  <Text style = {{fontSize: 25, fontWeight: 'bold', justifyContents: 'flex-start'}}>{item.key}</Text>
+                </View>
+                <View>
+                  <Text style = {{fontSize: 18, fontWeight: 'bold', color: `${item.name? 'blue': 'red'}`, justifyContents: 'center'}}>{item.name? item.name: 'No class'}</Text>
+                </View>
+                </View>
+              </Card>
+              }
+            />
+          </TouchableOpacity>
+        </Overlay>
       </View>
     )
   }
@@ -81,10 +127,13 @@ export default class calendars extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: hp('50%'),
+    height: hp('100%'),
   },
   calendarContainer: {
     borderWidth: 0.7,
     borderColor: 'black',
+  },
+  overlayStyle: {
+    height: hp('50%')
   }
 })

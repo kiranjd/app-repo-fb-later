@@ -87,7 +87,7 @@ export default class LastClasses extends Component {
                         extraData={this.state.showCard}
                         onRefresh={() => {
                             let userLocal = this.state.user;
-        let url = `http://139.59.69.143/api/getLastClasses.php?uid=${userLocal.uid}`;
+                            let url = `http://139.59.69.143/api/getLastClasses.php?uid=${userLocal.uid}`;
                             fetch(url)
                                 .then((response) => response.json())
                                 .then((responseJson) => {
