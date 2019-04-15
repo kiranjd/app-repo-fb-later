@@ -154,18 +154,6 @@ export default class UpdateProfile extends Component {
                         </View>
                     </View>
                     </TouchableOpacity>
-                    <View style={{
-                        width: wp('90%'), marginTop: hp('2%'), height: hp('7%'), flexDirection: 'row', borderRadius: wp('20%'),
-                        justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 100, borderWidth: 1, borderColor: '#AE1EF2'
-                    }}>
-
-                        <Dropdown
-                            label='User type'
-                            data={data}
-                            containerStyle={{ width: wp('70%') }}
-                            lineWidth={0}
-                        />
-                    </View>
 
                     <View style={{ flexDirection: 'row', marginTop: hp('1%') }}>
                         <TouchableOpacity onPress={() => this.updateUser()}>

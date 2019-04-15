@@ -20,14 +20,15 @@ export default class calendars extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
+      console.log('jj');
+      this.setState({showOverlay: false});
+      //debugger;
       this.props.navigation.navigate('Home');
       return true;
     });
-  }
 
-  componentWillMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
           this.setState({
@@ -42,6 +43,7 @@ export default class calendars extends Component {
   }
 
   componentDidMount() {
+
     let userLocal = this.state.user;
     let dates = new Object();
     let url = `http://139.59.69.143/api/markDates.php?uid=${userLocal.uid}`;
@@ -52,7 +54,6 @@ export default class calendars extends Component {
           responseJson.forEach(element => {
             dates[element] = { selected: true, selectedColor: 'orange' };
           });
-          
           this.setState({ dates: dates, isLoading: false });
       })
   }
@@ -76,50 +77,10 @@ export default class calendars extends Component {
           pastScrollRange={1}
           futureScrollRange={1}
           markedDates={this.state.dates}
-          onDayPress={(day)=>{console.log('day pressed', day)}}
+          onDayPress={(day) => {
+            this.props.navigation.navigate('Event', { day: day.dateString });
+          }}
         />
-        <Overlay 
-          isVisible = {this.state.showOverlay}
-          style = {styles.overlayStyle}
-          height = {hp('70%')}
-          width = { wp('90%') }
-        >
-          <TouchableOpacity onPress = { () => this.
-          setState({showOverlay: false})}>
-            <FlatList
-              data={[
-                {key: '6am', name: 'Ashwin Kuthrapalli'},
-                {key: '7am', name: 'Ramraj Rao'},
-                {key: '8am'},
-                {key: '9am', name: 'Ramesh NV'},
-                {key: '10am'},
-                {key: '11am'},
-                {key: '12pm', name: 'Ramesh NV'},
-                {key: '1pm'},
-                {key: '2pm'},
-                {key: '3pm', name: 'Ramraj Rao'},
-                {key: '4pm'},
-                {key: '5pm'}, 
-                {key: '6pm'},
-                {key: '7pm', name: 'Ashwin Kuthrapalli'},
-                {key: '8pm'},
-                {key: '9pm'},
-              ]}
-              renderItem={({item}) => 
-              <Card>
-              <View style={{flexDirection: 'row', margin: 0, alignItems: 'center'}}>
-                <View style = {{ width: wp('20%')}}>
-                  <Text style = {{fontSize: 25, fontWeight: 'bold', justifyContents: 'flex-start'}}>{item.key}</Text>
-                </View>
-                <View>
-                  <Text style = {{fontSize: 18, fontWeight: 'bold', color: `${item.name? 'blue': 'red'}`, justifyContents: 'center'}}>{item.name? item.name: 'No class'}</Text>
-                </View>
-                </View>
-              </Card>
-              }
-            />
-          </TouchableOpacity>
-        </Overlay>
       </View>
     )
   }

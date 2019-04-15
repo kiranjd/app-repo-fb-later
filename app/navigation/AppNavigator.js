@@ -19,6 +19,7 @@ import GoLive from '../components/goLive/goLive';
 import ParentOtp from '../components/parentOtp/parentOtp';
 import LinkMobile from '../components/linkMobile/linkMobile';
 import WebViewForVideo from '../components/showVideo';
+import Event from '../components/calendar/event';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -51,6 +52,9 @@ const MainDrawer = createDrawerNavigator(
     },
     Calendar: {
       screen: calendars,
+    },
+    Event: {
+      screen: Event,
     },
     Logout: {
       screen: Login,

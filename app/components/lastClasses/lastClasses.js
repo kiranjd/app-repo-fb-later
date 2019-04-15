@@ -78,7 +78,7 @@ export default class LastClasses extends Component {
         }
 
         return (
-            // <ScrollView style={styles.container}>
+         <ScrollView style={styles.container}>
             <View>
                 <HeaderBar pageName='Last Classes' navigation={this.props.navigation} />
                 {
@@ -100,7 +100,7 @@ export default class LastClasses extends Component {
                         }}
                         //this.props.navigation.navigate('showVideo', { videoUrl: item.videoUrl }
                         refreshing={this.state.isLoading}
-                        renderItem={({ item, index }) =>
+                        renderItem={({ item }) =>
                             <View>
                                 <TouchableOpacity onPress={() => Linking.openURL('http://139.59.69.143/playVideo.php?videoUrl=' + item.videoUrl)}>
                                     <Card containerStyle={styles.cardViewContainer} >
@@ -136,7 +136,7 @@ export default class LastClasses extends Component {
                     />
                 }
             </View>
-            // </ScrollView>
+             </ScrollView>
         );
     }
 }
