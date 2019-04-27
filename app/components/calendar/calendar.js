@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler, ActivityIndicator, Alert } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import HeaderBar from '../common/headerBar';
@@ -45,17 +45,35 @@ export default class calendars extends Component {
   componentDidMount() {
 
     let userLocal = this.state.user;
-    let dates = new Object();
+    let datesClass = new Object();
     let url = `http://139.59.69.143/api/markDates.php?uid=${userLocal.uid}`;
+    console.log(url);
 
     fetch(url)
       .then((response) => response.json())
       .then((responseJson) => {
           responseJson.forEach(element => {
-            dates[element] = { selected: true, selectedColor: 'orange' };
+            datesClass[element] = { selected: true, selectedColor: 'orange' };
           });
-          this.setState({ dates: dates, isLoading: false });
+          console.log(datesClass);
+          //console.log(dates);
+          this.setState({ dates: datesClass, isLoading: false });
       })
+
+      let datesBlock = new Object();
+      let urlBlock = `http://139.59.69.143/api/markBlockDates.php?uid=${userLocal.uid}`;
+  
+      fetch(urlBlock)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            responseJson.forEach(element => {
+              datesBlock[element] = { selected: true, selectedColor: 'red' };
+            }); 
+              console.log(Object.assign(datesBlock, this.state.dates));
+      console.log(datesBlock);
+      this.setState({ dates: datesBlock, isLoading: false });
+            console.log(datesBlock);
+        })
   }
 
 
@@ -79,6 +97,37 @@ export default class calendars extends Component {
           markedDates={this.state.dates}
           onDayPress={(day) => {
             this.props.navigation.navigate('Event', { day: day.dateString });
+          }}
+          onDayLongPress = { (day) => {
+            Alert.alert(
+  'Do you want to block the day, ' + day.dateString + '?',
+  'You\'ll not be alloted classes for the day if you press \'Yes\'',
+  [
+    {text: 'Yes', onPress: () => {
+      let userLocal = this.state.user;
+        let url = `http://139.59.69.143/api/event.php?blockDate=${day.dateString}&uid=${userLocal.uid}`;
+        alert(url);
+        fetch(url)
+          .then((response) => {
+              if(response.status == '201') {
+                Alert.alert('The day has been blocked successfully');
+                this.props.navigation.navigate('Home')
+              }
+              else {
+                Alert.alert('Could not block the day')
+              }
+          })
+          .then((responseJson) => {
+              //this.setState({ dataSource: responseJson, isLoading: false });
+          })
+      }},
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed')
+    },
+  ],
+  {cancelable: true},
+);
           }}
         />
       </View>

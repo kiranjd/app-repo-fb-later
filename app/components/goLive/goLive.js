@@ -30,16 +30,16 @@ export default class GoLive extends Component {
 
     componentWillUnmount() {
         Orientation.lockToPortrait();
-        let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=3&videoID=${this.state.videoID}`
-        fetch(url, { method: 'GET' })
-            .then((response) => {
-                if (response.status == 200) {
-                    this.resetStopwatch();
-                    this.vb.stop();
-                    ToastAndroid.show('Publish Ended', ToastAndroid.LONG);
-                    this.props.navigation.navigate('Home');
-                }
-            })
+        // let url = `http://139.59.69.143/api/postClassStatus.php?classID=${this.state.classID}&status=3&videoID=${this.state.videoID}`
+        // fetch(url, { method: 'GET' })
+        //     .then((response) => {
+        //         if (response.status == 200) {
+        //             this.resetStopwatch();
+        //             this.vb.stop();
+        //             ToastAndroid.show('Publish Ended', ToastAndroid.LONG);
+        //             this.props.navigation.navigate('Home');
+        //         }
+        //     })
     }
 
     makeid(length) {

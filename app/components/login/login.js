@@ -271,7 +271,7 @@ export default class Login extends Component {
               style={{
                 fontSize: 15,
                 width: wp('40%'),
-                height: 40,
+                height: hp('5%'),
                 color: 'white',
                 textAlign: 'center',
                 backgroundColor: '#AE1EF2',
@@ -294,7 +294,7 @@ export default class Login extends Component {
         <View
           style={{
             backgroundColor: '#fff',
-            width: wp('60%'),
+            width: wp('40%'),
             height: hp('9%'),
             marginVertical: hp('3%'),
             borderBottomLeftRadius: 50,
@@ -302,7 +302,7 @@ export default class Login extends Component {
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'row',
-            marginLeft: wp('40%'),
+            marginLeft: wp('60%'),
             backgroundColor: '#AE1EF2',
           }}
         >
@@ -318,12 +318,6 @@ export default class Login extends Component {
             <Image
               style={{ width: 50, height: 50, justifyContent: 'center', margin: 5 }}
               source={require('../Images/google-plus.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              style={{ width: 50, height: 50, justifyContent: 'center', margin: 5 }}
-              source={require('../Images/linkedin.png')}
             />
           </TouchableOpacity>
 
