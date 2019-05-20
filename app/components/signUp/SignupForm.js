@@ -7,7 +7,9 @@ import {
     TouchableOpacity,
     ToastAndroid,
     KeyboardAvoidingView,
-    BackHandler
+    BackHandler,
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TextField } from 'react-native-material-textfield';
@@ -24,6 +26,7 @@ export default class UpdateProfile extends Component {
             lastName: '',
             email: '',
             userType: '',
+            fetchingLocation: false
         }
     }
     componentDidMount() {
@@ -32,6 +35,35 @@ export default class UpdateProfile extends Component {
             return true;
         });
     }
+
+    findCoordinates = () => {
+        this.setState({ fetchingLocation: true });
+        //alert('function');
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                this.setState({ fetchingLocation: false });
+                let lat = position.coords.latitude;
+                let long = position.coords.longitude;
+                Alert.alert(
+                    'Location obtained',
+                    'Current location is updated as your service location',
+                    [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: true },
+                );
+                const location = JSON.stringify(position);
+                console.log(location['coords'], location);
+                this.setState({ location });
+            },
+            error => {
+                console.log(error.message);
+                alert("Please make sure you have enabled geo-location service and try again")
+                this.setState({ fetchingLocation: false });
+            },
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+        );
+    };
 
     render() {
         const { firstName, lastName, email } = this.state;
@@ -56,12 +88,19 @@ export default class UpdateProfile extends Component {
                             />
                         }
                     />
-                    <ListItem title="Service Location" onPress={() => navigation.navigate('ServiceLocation')}
+                    <ListItem title="Service Location" onPress={this.findCoordinates}
                         rightIcon={
-                            <Icon
-                                name='arrow-forward'
-                                color='#000'
-                            />
+                            <View>
+                                { 
+                                !this.state.fetchingLocation? 
+                                <Icon
+                                    name='arrow-forward'
+                                    color='#000'
+                                />
+                                :
+                                <ActivityIndicator color='#000'/>
+                                }
+                            </View>
                         }
                     />
                     </View>

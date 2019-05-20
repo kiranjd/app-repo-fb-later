@@ -10,6 +10,16 @@ export const mainStyles = StyleSheet.create({
         margin: hp('1%'),
         backgroundColor: '#d3d3d3'
     },
+    imagePicker: {
+        backgroundColor: '#d3d3d3',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: hp('20%'),
+        width: wp('40%'),
+        borderRadius: 10,
+        alignSelf: 'center',
+        marginBottom: wp('3.6%')
+    },
     inputContainer: {
         width: wp('80%'),
         borderWidth: 1,

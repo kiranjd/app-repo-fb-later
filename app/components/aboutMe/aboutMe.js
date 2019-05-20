@@ -284,9 +284,9 @@ export default class AboutMe extends Component {
         var json_arr = JSON.stringify(this.state.boards);
         var data= new FormData();
         data.append ('data', json_arr);
-
+        console.log('post data:', json_arr);
         console.log('boards state',JSON.stringify(this.state.boards));
-        let url = "http://139.59.69.143/postAboutMe.php";
+        let url = "http://139.59.69.143/api/postAboutMe.php";
         fetch(url, {
             method: 'POST',
             headers: {
@@ -298,7 +298,7 @@ export default class AboutMe extends Component {
         .then(response => {
             console.log(response.text());
             alert('Your details have been updated successfully');
-            this.props.navigation.navigate('Home');
+            //this.props.navigation.navigate('Home');
         })
         .catch(err => console.log(err))
     }

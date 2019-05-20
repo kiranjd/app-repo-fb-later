@@ -17,6 +17,7 @@ import LinkMobile from '../components/linkMobile/linkMobile';
 import WebViewForVideo from '../components/showVideo';
 import Event from '../components/calendar/event';
 import AboutMe from '../components/aboutMe/aboutMe';
+import IdentityVerification from '../components/identityVerification/identityVerification';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -63,6 +64,7 @@ const MainDrawer = createDrawerNavigator(
       screen: AddUserInfo,
     },
     AboutMe : AboutMe,
+    IdentityVerification: IdentityVerification,
 
     UpdateProfile: {
       screen: UpdateProfile,
