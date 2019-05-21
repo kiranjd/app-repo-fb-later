@@ -18,6 +18,8 @@ import WebViewForVideo from '../components/showVideo';
 import Event from '../components/calendar/event';
 import AboutMe from '../components/aboutMe/aboutMe';
 import IdentityVerification from '../components/identityVerification/identityVerification';
+import Credits from '../components/credits.js/credits';
+import Students from '../components/students/students';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -65,6 +67,8 @@ const MainDrawer = createDrawerNavigator(
     },
     AboutMe : AboutMe,
     IdentityVerification: IdentityVerification,
+    Credits: Credits,
+    Students: Students,
 
     UpdateProfile: {
       screen: UpdateProfile,

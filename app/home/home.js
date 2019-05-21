@@ -115,16 +115,19 @@ export default class Home extends Component {
         //alert(this.state.showCard == i)
         // alert('state:'+this.state.showCard+',index:'+i);
     }
-
+    
     render() {
+        let { totalHours, credits } = this.state;
+        totalHours = totalHours? Number(totalHours).toFixed(2): '0';
+        credits = credits? Number(credits).toFixed(2): '0';
         if (!this.state.isLoading && this.state.dataSource.length == 0) {
             return (
                 <View style={styles.container}>
                     <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
-                    <View style={{borderRadius: 7, marginTop: hp('1%'), height: hp('6%'), borderWidth: 2, borderColor: 'red', backgroundColor: 'white', flexDirection: 'row', width: wp('95%'), marginHorizontal: wp('2.5%'), alignContent: 'center', justifyContent: 'space-evenly'}}>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Credits: {this.state.credits? this.state.credits: 0}</Text>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Total Hours: {this.state.totalHours? this.state.totalHours: 0}</Text>
-                </View>
+                    <View style={{ borderRadius: 7, marginTop: hp('1%'), height: hp('4%'), borderWidth: 2, borderColor: 'red', backgroundColor: 'white', flexDirection: 'row', width: wp('95%'), marginHorizontal: wp('2.5%'), alignContent: 'center', justifyContent: 'center' }}>
+                        <Text style={{ width: wp('45%'), textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>Credits: {credits}</Text>
+                        <Text style={{ width: wp('45%'), textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>Total Hours: {totalHours}</Text>
+                    </View>
                     <ScrollView
                     refreshControl = {
                         <RefreshControl
@@ -150,8 +153,8 @@ export default class Home extends Component {
             <View style={styles.container}>
                 <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
                 <View style={{borderRadius: 7, marginTop: hp('1%'), height: hp('6%'), borderWidth: 2, borderColor: 'red', backgroundColor: 'white', flexDirection: 'row', width: wp('95%'), marginHorizontal: wp('2.5%'), alignContent: 'center', justifyContent: 'space-evenly'}}>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Credits: {this.state.credits? this.state.credits: 0}</Text>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Total Hours: {this.state.totalHours? this.state.totalHours: 0}</Text>
+                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Credits: {credits}</Text>
+                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Total Hours: {totalHours}</Text>
                 </View>
                 <FlatList
                     data={this.state.dataSource}

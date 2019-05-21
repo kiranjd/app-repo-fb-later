@@ -183,6 +183,14 @@ export default class SideMenu extends Component {
                         <Icon name='chart' type='evilicon' color='white' />
                         <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('UpdateProfile') }}>Update Profile</Text>
                     </View>
+                    <View style={styles.iconWithText}>
+                        <Icon name='plus' type='evilicon' color='white' />
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Credits') }}>Credits</Text>
+                    </View>
+                    <View style={styles.iconWithText}>
+                        <Icon name='star' type='evilicon' color='white' />
+                        <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('Students') }}>New Requests</Text>
+                    </View>
                     {/* <View style={styles.iconWithText}>
                         <Icon name='credit-card' type='evilicon' color='white' />
                         <Text style={styles.pagesList} onPress={() => { this.props.navigation.navigate('LinkMobile') }}>Link Mobile</Text>

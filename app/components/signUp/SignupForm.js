@@ -11,6 +11,7 @@ import {
     Alert,
     ActivityIndicator
 } from 'react-native';
+import Dialog from "react-native-dialog";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -26,7 +27,8 @@ export default class UpdateProfile extends Component {
             lastName: '',
             email: '',
             userType: '',
-            fetchingLocation: false
+            fetchingLocation: false,
+            inputPopup: false
         }
     }
     componentDidMount() {
@@ -71,6 +73,21 @@ export default class UpdateProfile extends Component {
         return (
             <View>
                 <HeaderBar pageName='Update Profile' navigation={this.props.navigation} />
+                <View>
+                    <Dialog.Container visible={this.state.inputPopup}>
+                        <Dialog.Title>Service Range</Dialog.Title>
+                        <Dialog.Description>
+                            Enter your service range
+                        </Dialog.Description>
+                        <Dialog.Input label="Range in kilo meters" style={{borderWidth: 1, borderRadius: 5}}/>
+                        <Dialog.Button label="OK"  onPress={() => {
+                                alert('Service range has been updated');
+                                this.setState({inputPopup: false});
+                            }
+                            }/>
+                        <Dialog.Button label="Cancel" onPress={() => this.setState({inputPopup: false})}/>
+                    </Dialog.Container>
+                </View>
                 <View style={mainStyles.cardContainer}>
                     <ListItem title="About Me" onPress={() => navigation.navigate('AboutMe')}
                         rightIcon={
@@ -100,6 +117,16 @@ export default class UpdateProfile extends Component {
                                 :
                                 <ActivityIndicator color='#000'/>
                                 }
+                            </View>
+                        }
+                    />
+                     <ListItem title="Service Range" onPress={() => this.setState({inputPopup: true})}
+                        rightIcon={
+                            <View>
+                                <Icon
+                                    name='arrow-forward'
+                                    color='#000'
+                                />
                             </View>
                         }
                     />
