@@ -20,6 +20,8 @@ import AboutMe from '../components/aboutMe/aboutMe';
 import IdentityVerification from '../components/identityVerification/identityVerification';
 import Credits from '../components/credits.js/credits';
 import Students from '../components/students/students';
+import WebviewPrivacy from '../components/webviewURL/WebviewPrivacy';
+import WebviewTC from '../components/webviewURL/WebviewTC';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -69,6 +71,8 @@ const MainDrawer = createDrawerNavigator(
     IdentityVerification: IdentityVerification,
     Credits: Credits,
     Students: Students,
+    WebviewPrivacy: WebviewPrivacy,
+    WebviewTC: WebviewTC,
 
     UpdateProfile: {
       screen: UpdateProfile,

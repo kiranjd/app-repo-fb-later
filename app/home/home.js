@@ -93,11 +93,11 @@ export default class Home extends Component {
                     title="Start Class"
                     raised
                     containerStyle={styles.cardButton}
-                    // onPress={() => this.props.navigation.navigate('ParentOtp', {
-                    //     classID: classID,
-                    //     parentNumber: parentNumber
-                    // })}
-                    onPress={() => this.props.navigation.navigate('GoLive', { classID: classID })}
+                    onPress={() => this.props.navigation.navigate('ParentOtp', {
+                        classID: classID,
+                        parentNumber: parentNumber
+                    })}
+                    // onPress={() => this.props.navigation.navigate('GoLive', { classID: classID })}
                 // onPress={() => alert(classID)}
                 />
             </View>

@@ -37,6 +37,7 @@ export default class ParentOtp extends Component {
             this.props.navigation.navigate('Home');
             return true;
           });
+        this.sendOtp();
     }
 
     renderPhoneNumberInput() {
@@ -114,6 +115,7 @@ export default class ParentOtp extends Component {
 
         return (
                         <View>
+                            <Text style={{textAlign: 'center'}}>OTP has been sent to {this.state.phoneNumber}</Text>
                         <View style={{ 
                                             width: wp('90%'), 
                                             flexDirection: 'row', 
