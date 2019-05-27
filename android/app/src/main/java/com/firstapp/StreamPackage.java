@@ -1,4 +1,4 @@
-package com.firstapp;
+package com.nearcoach;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

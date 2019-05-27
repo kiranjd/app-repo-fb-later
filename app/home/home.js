@@ -10,8 +10,6 @@ import firebase from 'react-native-firebase';
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        //debugger;
-        //this.showCardButton = this.showCardButton.bind(this);
         this.state = {
             showCard: null,
             user: [],
@@ -97,8 +95,6 @@ export default class Home extends Component {
                         classID: classID,
                         parentNumber: parentNumber
                     })}
-                    // onPress={() => this.props.navigation.navigate('GoLive', { classID: classID })}
-                // onPress={() => alert(classID)}
                 />
             </View>
         );
@@ -112,8 +108,6 @@ export default class Home extends Component {
         else {
             this.setState({ showCard: i });
         }
-        //alert(this.state.showCard == i)
-        // alert('state:'+this.state.showCard+',index:'+i);
     }
     
     render() {
@@ -125,7 +119,7 @@ export default class Home extends Component {
                 <View style={styles.container}>
                     <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
                     <View style={{ borderRadius: 7, marginTop: hp('1%'), height: hp('4%'), borderWidth: 2, borderColor: 'red', backgroundColor: 'white', flexDirection: 'row', width: wp('95%'), marginHorizontal: wp('2.5%'), alignContent: 'center', justifyContent: 'center' }}>
-                        <Text style={{ width: wp('45%'), textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>Credits: {credits}</Text>
+                        <Text style={{ width: wp('45%'), textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>Open credits: {credits}</Text>
                         <Text style={{ width: wp('45%'), textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>Total Hours: {totalHours}</Text>
                     </View>
                     <ScrollView
@@ -152,10 +146,10 @@ export default class Home extends Component {
         return (
             <View style={styles.container}>
                 <HeaderBar pageName='Upcoming Classes' navigation={this.props.navigation} />
-                <View style={{borderRadius: 7, marginTop: hp('1%'), height: hp('6%'), borderWidth: 2, borderColor: 'red', backgroundColor: 'white', flexDirection: 'row', width: wp('95%'), marginHorizontal: wp('2.5%'), alignContent: 'center', justifyContent: 'space-evenly'}}>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Credits: {credits}</Text>
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black'}}>Total Hours: {totalHours}</Text>
-                </View>
+                <View style={{ borderRadius: 7, marginTop: hp('1%'), height: hp('4%'), borderWidth: 2, borderColor: 'red', backgroundColor: 'white', flexDirection: 'row', width: wp('95%'), marginHorizontal: wp('2.5%'), alignContent: 'center', justifyContent: 'center' }}>
+                        <Text style={{ width: wp('45%'), textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>Open credits: {credits}</Text>
+                        <Text style={{ width: wp('45%'), textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>Total Hours: {totalHours}</Text>
+                    </View>
                 <FlatList
                     data={this.state.dataSource}
                     extraData={this.state.showCard}
@@ -177,8 +171,6 @@ export default class Home extends Component {
                     }
                     keyExtractor={item => item.ID}
                 />
-                {/* }
-                </ScrollView> */}
             </View>
         );
     }

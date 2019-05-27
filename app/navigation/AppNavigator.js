@@ -22,6 +22,7 @@ import Credits from '../components/credits.js/credits';
 import Students from '../components/students/students';
 import WebviewPrivacy from '../components/webviewURL/WebviewPrivacy';
 import WebviewTC from '../components/webviewURL/WebviewTC';
+import WebviewHelp from '../components/webviewURL/WebviewHelp';
 
 
 const MainDrawer = createDrawerNavigator(
@@ -73,6 +74,7 @@ const MainDrawer = createDrawerNavigator(
     Students: Students,
     WebviewPrivacy: WebviewPrivacy,
     WebviewTC: WebviewTC,
+    WebviewHelp: WebviewHelp,
 
     UpdateProfile: {
       screen: UpdateProfile,

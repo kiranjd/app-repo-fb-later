@@ -1,4 +1,4 @@
-package com.firstapp;
+package com.nearcoach;
 
 import android.content.Context;
 import android.graphics.Color;

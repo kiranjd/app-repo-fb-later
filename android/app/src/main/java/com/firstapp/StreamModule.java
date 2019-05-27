@@ -1,6 +1,6 @@
 //  Created by react-native-create-bridge
 
-package com.firstapp;
+package com.nearcoach;
 
 import android.support.annotation.Nullable;
 

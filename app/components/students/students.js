@@ -14,7 +14,7 @@ export default class Students extends Component {
                 <HeaderBar pageName='New Requests' navigation={this.props.navigation} />
                 <Card
                     title='Student Name: Ashwin Kuthrapalli'>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', width: wp('85%'), justifyContent: 'space-around' }}>
                         <Text style={{ color: 'black', padding: 5, borderRadius: 5, marginBottom: 10, borderWidth: 1, textAlign: 'center' }}>
                             Class: 10th
                     </Text>
@@ -38,19 +38,19 @@ export default class Students extends Component {
                 </Card>
                 <Card
                     title='Student Name: Maven Joseph'>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', width: wp('85%'), justifyContent: 'space-around' }}>
                         <Text style={{ color: 'black', padding: 5, borderRadius: 5, marginBottom: 10, borderWidth: 1, textAlign: 'center' }}>
-                            Class: 11th
+                            Class: 10th
                     </Text>
                         <Text style={{ color: 'black', borderRadius: 5, padding: 5, marginBottom: 10, borderWidth: 1, textAlign: 'center' }}>
-                            Location: Marathalli
+                            Location: Hebbal
                     </Text>
                         <Text style={{ color: 'black', borderRadius: 5, padding: 5, marginBottom: 10, borderWidth: 1, textAlign: 'center' }}>
-                            Subject: Physics
+                            Subject: Biology
                     </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                    <Button
+                        <Button
                             backgroundColor='#000000'
                             buttonStyle={{ width: wp('40%'), backgroundColor: 'green', marginHorizontal: wp('1%') }}
                             title='Accept' />
@@ -62,19 +62,19 @@ export default class Students extends Component {
                 </Card>
                 <Card
                     title='Student Name: Harshitha'>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', width: wp('85%'), justifyContent: 'space-around' }}>
                         <Text style={{ color: 'black', padding: 5, borderRadius: 5, marginBottom: 10, borderWidth: 1, textAlign: 'center' }}>
-                            Class: 7th
+                            Class: 10th
                     </Text>
                         <Text style={{ color: 'black', borderRadius: 5, padding: 5, marginBottom: 10, borderWidth: 1, textAlign: 'center' }}>
-                            Location: Marathalli
+                            Location: Hebbal
                     </Text>
                         <Text style={{ color: 'black', borderRadius: 5, padding: 5, marginBottom: 10, borderWidth: 1, textAlign: 'center' }}>
-                            Subject: English
+                            Subject: Biology
                     </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-                    <Button
+                        <Button
                             backgroundColor='#000000'
                             buttonStyle={{ width: wp('40%'), backgroundColor: 'green', marginHorizontal: wp('1%') }}
                             title='Accept' />

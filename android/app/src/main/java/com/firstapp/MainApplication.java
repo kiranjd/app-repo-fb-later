@@ -1,4 +1,4 @@
-package com.firstapp;
+package com.nearcoach;
 
 import android.app.Application;
 
