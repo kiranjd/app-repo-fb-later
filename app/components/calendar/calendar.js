@@ -58,22 +58,23 @@ export default class calendars extends Component {
           console.log(datesClass);
           //console.log(dates);
           this.setState({ dates: datesClass, isLoading: false });
+          let datesBlock = new Object();
+          let urlBlock = `http://139.59.69.143/api/markBlockDates.php?uid=${userLocal.uid}`;
+      
+          fetch(urlBlock)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                responseJson.forEach(element => {
+                  datesBlock[element] = { selected: true, selectedColor: 'red' };
+                }); 
+                  console.log(Object.assign(datesBlock, this.state.dates));
+          console.log(datesBlock);
+          this.setState({ dates: datesBlock, isLoading: false });
+                console.log(datesBlock);
+            })
       })
 
-      let datesBlock = new Object();
-      let urlBlock = `http://139.59.69.143/api/markBlockDates.php?uid=${userLocal.uid}`;
-  
-      fetch(urlBlock)
-        .then((response) => response.json())
-        .then((responseJson) => {
-            responseJson.forEach(element => {
-              datesBlock[element] = { selected: true, selectedColor: 'red' };
-            }); 
-              console.log(Object.assign(datesBlock, this.state.dates));
-      console.log(datesBlock);
-      this.setState({ dates: datesBlock, isLoading: false });
-            console.log(datesBlock);
-        })
+
   }
 
 

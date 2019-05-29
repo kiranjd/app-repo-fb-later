@@ -18,6 +18,8 @@ export default class Home extends Component {
             credits: '',
             totalHours: ''
         }
+
+        //this.props.navigation.navigate('AboutMe');
     }
 
     componentWillMount() {

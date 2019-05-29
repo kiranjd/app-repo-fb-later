@@ -17,7 +17,8 @@ import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
 import HeaderBar from '../common/headerBar';
 import { mainStyles } from '../../MainStyles';
-import { ListItem, Icon } from 'react-native-elements'
+import { ListItem, Icon } from 'react-native-elements';
+import firebase from 'react-native-firebase';
 
 export default class UpdateProfile extends Component {
     constructor(props) {
@@ -28,7 +29,8 @@ export default class UpdateProfile extends Component {
             email: '',
             userType: '',
             fetchingLocation: false,
-            inputPopup: false
+            inputPopup: false,
+            user: []
         }
     }
     componentDidMount() {
@@ -36,6 +38,28 @@ export default class UpdateProfile extends Component {
             this.props.navigation.navigate('Home');
             return true;
         });
+    }
+
+    componentWillMount() {
+        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({
+                    user: user.toJSON(),
+                });
+            } else {
+                this.setState({
+                    user: null,
+                });
+            }
+        });
+    }
+
+    postLocation = (lat, long) => {
+        console.log('location function user', this.state.user);
+        let url = `http://139.59.69.143/api/getLocation.php?uid=${this.state.user.uid}&lat=${lat}&long=${long}`;
+        console.log('location url', url);
+        fetch(url)
+            .then((response) => alert('Service location updated successfully'))
     }
 
     findCoordinates = () => {
@@ -48,9 +72,10 @@ export default class UpdateProfile extends Component {
                 let long = position.coords.longitude;
                 Alert.alert(
                     'Location obtained',
-                    'Current location is updated as your service location',
+                    'Do you want to add this as your service location?',
                     [
-                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        { text: 'OK', onPress: () => this.postLocation(lat, long) },
+                        { text: 'Cancel'}
                     ],
                     { cancelable: true },
                 );

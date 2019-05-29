@@ -50,9 +50,13 @@ export const hangleGoogleLogIn = () => {
           if(err.code === 'auth/account-exists-with-different-credential') {
       alert("An account is already in use with the email id. Use the same social login");
           }
+          else {
+            alert(err);
+          }
         })
     })
     .catch((error) => {
+      alert(error.message);
       const { code, message } = error;
       console.log(error);
       // For details of error codes, see the docs

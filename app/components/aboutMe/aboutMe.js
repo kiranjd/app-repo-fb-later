@@ -17,11 +17,13 @@ import { mainStyles } from '../../MainStyles';
 import { ListItem, Icon, Input, CheckBox, ButtonGroup, Button } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import CustomCheckbox from './customCheckBox';
+import firebase from 'react-native-firebase';
 
 export default class AboutMe extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            age: '',
             profession: '',
             qualification1: '',
             qualification2: '',
@@ -37,10 +39,25 @@ export default class AboutMe extends Component {
         }
         this.filterUser = this.filterUser.bind(this);
     }
+
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', () => {
             this.props.navigation.navigate('UpdateProfile');
             return true;
+        });
+    }
+
+    componentWillMount() {
+        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({
+                    user: user.toJSON(),
+                });
+            } else {
+                this.setState({
+                    user: null,
+                });
+            }
         });
     }
 
@@ -61,7 +78,7 @@ export default class AboutMe extends Component {
                         placeholder='Age'
                         containerStyle={mainStyles.inputContainer}
                         value={this.state.profession}
-                        onChangeText={() => this.setState({profession: this.state.profession})}
+                        onChangeText={() => this.setState({profession: value})}
                     />
                     }
                 </View>
@@ -98,7 +115,7 @@ export default class AboutMe extends Component {
                 <Input
                     containerStyle={mainStyles.inputContainer}
                     value={this.state.qualification1}
-                    onChangeText={() => this.setState({ qualification1: this.state.qualification1 })}
+                    onChangeText={(value) => this.setState({ qualification1: value })}
                 />
             );
         }
@@ -107,7 +124,7 @@ export default class AboutMe extends Component {
                 <Input
                     containerStyle={mainStyles.inputContainer}
                     value={this.state.qualification2}
-                    onChangeText={() => this.setState({ qualification2: this.state.qualification2 })}
+                    onChangeText={(value) => this.setState({ qualification2: value })}
                 />
             );
         }
@@ -116,7 +133,7 @@ export default class AboutMe extends Component {
                 <Input
                     containerStyle={mainStyles.inputContainer}
                     value={this.state.qualification3}
-                    onChangeText={() => this.setState({ qualification3: this.state.qualification3 })}
+                    onChangeText={(value) => this.setState({ qualification3: value })}
                 />
             );
         }
@@ -275,17 +292,65 @@ export default class AboutMe extends Component {
         });
     }
 
-    submitData() {
-        //alert('data');
-        let billUser = '123';
-        let bodyStr = "data=" + encodeURIComponent(this.state.boards);
-        bodyStr += "data2=" + encodeURIComponent(billUser);
+    submitData = () => {
+        let data = new FormData();
 
-        var json_arr = JSON.stringify(this.state.boards);
-        var data= new FormData();
-        data.append ('data', json_arr);
-        console.log('post data:', json_arr);
-        console.log('boards state',JSON.stringify(this.state.boards));
+        let { 
+            age, 
+            profession, 
+            sex, 
+            experience,
+            qualification1,
+            qualification2,
+            qualification3,
+            boards,
+            classes,
+            classItoV,
+            classVItoVIII,
+            classIXtoX,
+            classXItoXII,
+            price,
+            intro,
+            user
+        } = this.state;
+
+        console.log('age_', age, 
+                    'profession', profession, 
+                    'sex', sex, 
+                    'experience', experience,
+                    'q1', qualification1,
+                    'q3', qualification3,
+                    'q2', qualification2,
+                    'boards', boards,
+                    'classes', classes,
+                    '1to5', classItoV,
+                    '6to8', classVItoVIII,
+                    '9to10', classIXtoX,
+                    '11to12', classXItoXII,
+                    'price', price,
+                    'intro', intro,
+                    'uid', user.uid
+                    );
+
+        data.append('age', age);
+        data.append('profession', profession);
+        data.append('sex', sex);
+        data.append('experience', experience)
+        data.append('qualification1', qualification1);
+        data.append('qualification2', qualification2);
+        data.append('qualification3', qualification3);
+        data.append('boardsTaught', JSON.stringify(boards));
+        data.append('classesTaught',  JSON.stringify(classes));
+        data.append('1to5',  JSON.stringify(classItoV));
+        data.append('6to8',  JSON.stringify(classVItoVIII));
+        data.append('9to10',  JSON.stringify(classIXtoX));
+        data.append('11to12',  JSON.stringify(classXItoXII));
+        data.append('price',  price);
+        data.append('intro',  intro);
+        data.append('uid', user.uid);
+
+        console.log('data object', data);
+
         let url = "http://139.59.69.143/api/postAboutMe.php";
         fetch(url, {
             method: 'POST',
@@ -296,7 +361,7 @@ export default class AboutMe extends Component {
               body: data
         })
         .then(response => {
-            console.log(response.text());
+            console.log('response text', response.text());
             alert('Your details have been updated successfully');
             //this.props.navigation.navigate('Home');
         })
@@ -316,7 +381,7 @@ export default class AboutMe extends Component {
                             placeholder='Age'
                             containerStyle={mainStyles.inputContainer}
                             value={this.state.age}
-                            onChangeText={() => this.setState({age: this.state.age})}
+                            onChangeText={(value) => this.setState({age: value})}
                         />
                     </View>
                     <View style={mainStyles.cardContainer}>
@@ -341,7 +406,7 @@ export default class AboutMe extends Component {
                             placeholder='Experience'
                             containerStyle={mainStyles.inputContainer}
                             value={this.state.experience}
-                            onChangeText={() => this.setState({experience: this.state.experience})}
+                            onChangeText={(value) => this.setState({experience: value})}
                         />
                     </View>
                     <View style={mainStyles.cardContainer}>
@@ -387,7 +452,7 @@ export default class AboutMe extends Component {
                         <Input
                             containerStyle={mainStyles.inputContainer}
                             value={this.state.price}
-                            onChangeText={() => this.setState({price: this.state.fees})}
+                            onChangeText={(value) => this.setState({price: value})}
                         />
                         <Text style={mainStyles.formSub}>Rs. per month</Text>
                     </View>
@@ -397,11 +462,11 @@ export default class AboutMe extends Component {
                         <Input
                             containerStyle={mainStyles.inputBoxContainer}
                             value={this.state.intro}
-                            onChangeText={() => this.setState({intro: this.state.intro})}
+                            onChangeText={(value) => this.setState({intro: value})}
                             underlineColorAndroid="transparent"
                         />
                     </View>
-                    <Button title="Submit" onPress={this.submitData.bind(this)} buttonStyle={{marginHorizontal: wp('2.5%'), borderRadius: 6}}/>
+                    <Button title="Submit" onPress={this.submitData} buttonStyle={{marginHorizontal: wp('2.5%'), borderRadius: 6}}/>
                     <View style={{ height: hp('10%') }} />
                 </ScrollView>
             </View>

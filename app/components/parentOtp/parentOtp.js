@@ -115,7 +115,7 @@ export default class ParentOtp extends Component {
 
         return (
                         <View>
-                            <Text style={{textAlign: 'center'}}>OTP has been sent to {this.state.phoneNumber}</Text>
+                            <Text style={{textAlign: 'center'}}>OTP has been sent to XXXXXXX{this.state.phoneNumber.substr(-3)}</Text>
                         <View style={{ 
                                             width: wp('90%'), 
                                             flexDirection: 'row', 

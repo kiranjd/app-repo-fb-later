@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, TextInput, ActivityIndicator, Text, WebView, Linking, FlatList, View, Image, TouchableOpacity, Scroll, BackHandler } from 'react-native';
+import { StyleSheet, StatusBar, TextInput, ActivityIndicator, Text, WebView, Linking, FlatList, View, Image, TouchableOpacity, Scroll, BackHandler, Alert } from 'react-native';
 
 import { Card, ListItem, Button } from 'react-native-elements';
 import { Icon } from 'react-native-elements'
@@ -20,6 +20,29 @@ export default class LastClasses extends Component {
             dataSource: [],
             isLoading: true,
         }
+    }
+
+    deleteVideo = (id) => {
+        //alert(id);
+        let userLocal = this.state.user;
+        //alert(userLocal.uid);
+        Alert.alert(
+            'Delete video',
+            'Delete video from class?',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => {
+                  fetch("http://139.59.69.143/api/lastClassDelete.php?classID="+id);
+                  alert('Video has been deleted');
+                  
+                }},
+            ],
+            {cancelable: false},
+          )
     }
 
     componentWillMount() {
@@ -45,6 +68,7 @@ export default class LastClasses extends Component {
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log('last classes', responseJson);
                 const dataSource = responseJson;
                 this.setState({
                     dataSource,
@@ -102,7 +126,8 @@ export default class LastClasses extends Component {
                         refreshing={this.state.isLoading}
                         renderItem={({ item }) =>
                             <View>
-                                <TouchableOpacity onPress={() => Linking.openURL('http://139.59.69.143/playVideo.php?videoUrl=' + item.videoUrl)}>
+                                {/* <TouchableOpacity onPress={() => Linking.openURL('http://139.59.69.143/playVideo.php?videoUrl=' + item.videoUrl)}> */}
+                                    <TouchableOpacity>
                                     <Card containerStyle={styles.cardViewContainer} >
                                         <View style={styles.cardViewInnerContainer}>
                                             <View style={styles.cardTextContainer}>
@@ -126,6 +151,7 @@ export default class LastClasses extends Component {
                                                     <Text style={styles.cardItemText}> Duration of class </Text>
                                                     <Text style={styles.cardItemTextValue}> {item.duration} minutes</Text>
                                                 </View>
+                                                <Button title='Delete' onPress={() => this.deleteVideo(item.ID)} />
                                             </View>
                                         </View>
                                     </Card>
@@ -170,14 +196,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         margin: hp('0.25%'),
         color: 'white',
-        width: '50%',
+        width: '40%',
     },
 
     cardItemTextValue: {
         fontWeight: 'bold',
-        margin: hp('0.25%'),
+        margin: hp('0%'),
         color: '#f7f2b9',
-        width: '50%',
+        width: '40%',
     },
 
     thumbnailContainer: {
